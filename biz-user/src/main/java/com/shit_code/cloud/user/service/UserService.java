@@ -2,12 +2,13 @@ package com.shit_code.cloud.user.service;
 
 
 import com.shit_code.cloud.user.dto.UserInfoDTO;
+import org.springframework.web.bind.annotation.GetMapping;
 
 public interface UserService {
 
     /**
-     * @param userId
      * @return
      */
-    UserInfoDTO queryUserById(String userId);
+    @GetMapping("/user")
+    UserInfoDTO queryUserById();
 }

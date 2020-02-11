@@ -46,6 +46,11 @@ subprojects {
 
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix'
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-discovery'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-config'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
 
     }
