@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        maven {
+            url aliYunMavenRepo
+        }
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    group 'com.shit_code'
+
+    repositories {
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public"
+        }
+    }
+}
+
+subprojects {
+
+    apply plugin: 'org.springframework.boot'
+    apply plugin: "io.spring.dependency-management"
+
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    //common dependencies
+    dependencies {
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+        implementation group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion
+
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul'
+
+
+    }
+}
+
+//configure(subprojects.findAll { it.name.endsWith('-server') }) {
+//
+//}
