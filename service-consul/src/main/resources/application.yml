@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: service-consul
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        tags: version=0.0.1,author=cd871127
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}
+        query-passing: true
+        prefer-ip-address: true
+        health-check-critical-timeout: 10s
+        health-check-timeout: 5s
+        deregister: true
+        service-name: ${spring.application.name}
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+    health:
+      show-details: always
+
+server:
+  port: 8082

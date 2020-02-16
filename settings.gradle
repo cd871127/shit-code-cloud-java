@@ -3,4 +3,5 @@ include 'service-gateway'
 include 'biz-user'
 include 'biz-auth'
 include 'biz-template'
+include 'service-consul'
 
