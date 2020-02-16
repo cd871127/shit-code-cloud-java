@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 public class TestController {
 
     @Resource
-    private UserService userService;
+    private UserServiceClient userService;
 
     @GetMapping("test")
     public String teset() {

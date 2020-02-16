@@ -2,4 +2,5 @@ rootProject.name = 'shit-code-cloud-java'
 include 'service-gateway'
 include 'biz-user'
 include 'biz-auth'
+include 'biz-template'
 

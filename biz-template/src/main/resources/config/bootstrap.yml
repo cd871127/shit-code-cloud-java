@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: biz-template
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+#    include: consul,redis
+    active: dev
+  cloud:
+    consul:
+      config:
+        format: FILES
+        prefix: config/${spring.profiles.active}
+        watch:
+          enabled: true
+          delay: 1000
