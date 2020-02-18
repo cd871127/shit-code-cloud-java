@@ -1,12 +1,11 @@
 package com.shit_code.cloud.consul.config.loader;
 
 import com.shit_code.cloud.consul.config.ConfigContent;
-import com.shit_code.cloud.consul.config.properties.LocalConfigProperties;
+import com.shit_code.cloud.consul.config.ConfigProperties;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -22,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LocalConfigLoader implements ConfigLoader {
 
-    private LocalConfigProperties localConfigProperties;
+    private ConfigProperties.LocalConfig localConfig;
 
 
     @Override
@@ -44,7 +43,7 @@ public class LocalConfigLoader implements ConfigLoader {
     private PathMatcher buildPathMatcher() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("glob:**/*.{");
-        localConfigProperties.getSuffix().forEach((suffix) -> {
+        localConfig.getSuffix().forEach((suffix) -> {
             stringBuffer.append(suffix);
             stringBuffer.append(",");
         });
@@ -62,7 +61,7 @@ public class LocalConfigLoader implements ConfigLoader {
      * @throws IOException
      */
     private List<ConfigContent> walkDir(PathMatcher pathMatcher) throws IOException {
-        final Path configPath = Paths.get(localConfigProperties.getPath());
+        final Path configPath = Paths.get(localConfig.getPath());
         List<ConfigContent> configContents = new ArrayList<>();
         Files.walkFileTree(configPath, new SimpleFileVisitor<Path>() {
             @Override

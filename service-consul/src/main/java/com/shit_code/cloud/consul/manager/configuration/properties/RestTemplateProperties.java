@@ -1,4 +1,4 @@
-package com.shit_code.cloud.consul.config.properties;
+package com.shit_code.cloud.consul.manager.configuration.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

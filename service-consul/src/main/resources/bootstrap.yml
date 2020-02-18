@@ -7,3 +7,13 @@ shit_code:
     request:
       url: localhost
       port: 8500
+spring:
+  application:
+    name: service-consul
+  profiles:
+    active: dev
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: D:/dev/log
+

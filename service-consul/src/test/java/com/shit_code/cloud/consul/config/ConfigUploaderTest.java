@@ -11,10 +11,10 @@ import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {Application.class})
-public class ConsulManagerTest {
+public class ConfigUploaderTest {
 
     @Resource
-    private ConsulManager consulManager;
+    private ConfigUploader consulManager;
 
     @Resource
     private LocalConfigLoader localConfigProperties;

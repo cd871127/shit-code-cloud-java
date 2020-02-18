@@ -11,14 +11,21 @@ import java.util.List;
  * @date 2020/2/17
  **/
 @Component
-public class ConsulManager {
+public class ConfigUploader {
 
     @Resource
     private RestTemplate restTemplate;
 
+    /**
+     * 上传配置
+     *
+     * @param configContents
+     */
     public void uploadConfig(List<ConfigContent> configContents) {
         configContents.forEach(configContent -> {
             restTemplate.put("/v1/kv/" + configContent.getPath().toString().replaceAll("\\\\", "/"), configContent.getContent());
         });
     }
+
+
 }
