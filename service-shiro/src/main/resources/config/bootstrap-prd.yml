@@ -1,5 +1,4 @@
 logging:
-  config: classpath:config/logback-spring.xml
   file:
     path: D:/dev/log/${spring.application.name}
 

@@ -3,7 +3,7 @@ spring:
     name: service-shiro
   profiles:
     include: consul
-    active: dev
+    active: prd
   cloud:
     consul:
       host: localhost
@@ -14,6 +14,9 @@ spring:
         watch:
           enabled: true
           delay: 1
+
+logging:
+  config: classpath:config/logback-spring.xml
 
 management:
   endpoint:
