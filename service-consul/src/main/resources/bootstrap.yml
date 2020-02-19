@@ -2,7 +2,7 @@ shit_code:
   consul:
     config:
       local:
-        path: D:\dev\code\hodgepodge-config
+        path: D:\dev\code\shit-code-cloud-java\app-config
         suffix: yml
     request:
       url: localhost

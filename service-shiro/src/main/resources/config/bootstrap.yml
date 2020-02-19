@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: service-shiro
+  profiles:
+    include: consul
+    active: dev
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        format: FILES
+        prefix: ${spring.profiles.active}
+        watch:
+          enabled: true
+          delay: 1
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+    health:
+      show-details: always
+
+
