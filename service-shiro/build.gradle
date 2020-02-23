@@ -2,6 +2,6 @@ version '0.0.1'
 
 dependencies {
     // https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring
-    compile group: 'org.apache.shiro', name: 'shiro-spring', version: shiroVersion
+    implementation group: 'org.apache.shiro', name: 'shiro-spring', version: shiroVersion
 
 }

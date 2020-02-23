@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.shit_code.cloud.lib.springboot.log.LogAutoConfiguration,\
+  com.shit_code.cloud.lib.springboot.mybatis.MybatisAutoConfiguration,\
+  com.shit_code.cloud.lib.springboot.redis.RedisAutoConfiguration

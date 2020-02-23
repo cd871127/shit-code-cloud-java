@@ -12,7 +12,7 @@ task compileInterface(type: JavaCompile, description: '编译接口jar包') {
 }
 
 task buildInterface(type: Jar, dependsOn: compileInterface, description: '构建接口jar包') {
-    from fileTree(dir: 'build/classes/java/main', includes: ['**/service/','**/dto/'], excludes: ['**/service/impl/'])
+    from fileTree(dir: 'build/classes/java/main', includes: ['**/service/', '**/dto/'], excludes: ['**/service/impl/'])
     includeEmptyDirs = false
     archiveAppendix = 'service'
     destinationDirectory = jar.destinationDirectory

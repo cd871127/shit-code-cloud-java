@@ -19,7 +19,10 @@ allprojects {
             url aliYunMavenRepo
         }
     }
+
+
 }
+
 
 subprojects {
 
@@ -30,6 +33,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     apply from: "${project.rootDir}/buildInterface.gradle"
+
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -46,9 +50,7 @@ subprojects {
     dependencies {
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
         compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-
         implementation group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion
-
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix'
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul'
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-discovery'
@@ -57,15 +59,11 @@ subprojects {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging'
-
         implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
         annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-
         implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonLang3Version
-
         testImplementation group: 'junit', name: 'junit', version: '4.13'
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-
     }
 
     configurations {
@@ -76,3 +74,4 @@ subprojects {
         rootSpec.exclude("**/config/")
     }
 }
+apply from: "${project.rootDir}/dependencies.gradle"

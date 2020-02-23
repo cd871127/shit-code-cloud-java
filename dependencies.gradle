@@ -1,0 +1,18 @@
+String[] redisProjects = ['service-shiro']
+
+configure(subprojects.findAll { redisProjects.contains(it.name) }) {
+    dependencies {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+//        compile group: 'org.springframework.session', name: 'spring-session-data-redis'
+    }
+}
+
+String[] mysqlProjects = ['service-shiro']
+
+configure(subprojects.findAll { mysqlProjects.contains(it.name) }) {
+    dependencies {
+        implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
+        implementation group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+        implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: pageHelperVersion
+    }
+}

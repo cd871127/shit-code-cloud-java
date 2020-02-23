@@ -2,8 +2,8 @@ spring:
   application:
     name: service-shiro
   profiles:
-    include: consul
-    active: prd
+    include: consul,redis
+    active: dev
   cloud:
     consul:
       host: localhost
