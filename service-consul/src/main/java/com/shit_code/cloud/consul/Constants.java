@@ -5,5 +5,5 @@ package com.shit_code.cloud.consul;
  * @date 2020/2/17
  **/
 public interface Constants {
-    String CONFIG_PREFIX="shitcode.consul.config";
+    String CONFIG_PREFIX = "shitcode.consul.config";
 }

@@ -1,6 +1,5 @@
 package com.shit_code.cloud.auth;
 
-import com.shit_code.cloud.user.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

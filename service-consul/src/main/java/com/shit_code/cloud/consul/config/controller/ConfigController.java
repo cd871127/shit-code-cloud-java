@@ -3,7 +3,6 @@ package com.shit_code.cloud.consul.config.controller;
 import com.shit_code.cloud.consul.config.loader.LocalConfigLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

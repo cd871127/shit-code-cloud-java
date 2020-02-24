@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: service-flyway
+  profiles:
+    include: consul,datasource
+    active: dev
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        format: FILES
+        prefix: ${spring.profiles.active}
+        watch:
+          enabled: true
+          delay: 1
+
+logging:
+  config: classpath:config/logback-spring.xml
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+    health:
+      show-details: always
+server:
+  port: 8888
