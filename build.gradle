@@ -12,15 +12,13 @@ buildscript {
 
 allprojects {
     group 'com.shit_code.cloud'
-
+    version '0.0.1'
     repositories {
         mavenLocal()
         maven {
             url aliYunMavenRepo
         }
     }
-
-
 }
 
 
@@ -46,24 +44,10 @@ subprojects {
         }
     }
 
-    //common dependencies
     dependencies {
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
         compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-        implementation group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion
-        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix'
-        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul'
-        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-discovery'
-        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-config'
-        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-        annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-        implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonLang3Version
         testImplementation group: 'junit', name: 'junit', version: '4.13'
-        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     }
 
     configurations {

@@ -1,4 +1,4 @@
-package com.shit_code.cloud.lib.springboot.sharding.strategy;
+package com.shit_code.cloud.lib.springboot.database.sharding.strategy;
 
 /**
  * @author Anthony Chen

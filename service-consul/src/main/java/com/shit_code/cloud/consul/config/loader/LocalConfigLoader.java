@@ -67,7 +67,7 @@ public class LocalConfigLoader implements ConfigLoader {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(file)) {
-                    String config = Files.lines(file).reduce("", (s1, s2) -> s1 + "\n" + s2);
+                    String config = Files.lines(file).reduce((s1, s2) -> s1 + "\n" + s2).orElse("");
                     configContents.add(new ConfigContent(config, configPath.relativize(file)));
                 }
                 return FileVisitResult.CONTINUE;
