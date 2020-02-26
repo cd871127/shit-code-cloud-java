@@ -1,0 +1,11 @@
+shitcode:
+  flyway:
+    sourceLocation: D:\dev\code\shit-code-cloud-java\service-flyway\src\main\resources\db2\migration
+    targetLocation: D:\dev\code\shit-code-cloud-java\service-flyway\src\main\resources\db2
+    scripts:
+      test:
+        scriptName: test
+        scriptVersion: 1
+        dbName: aaa
+        tableName: bbb
+        type: MULTI_DB_MULTI_TABLE

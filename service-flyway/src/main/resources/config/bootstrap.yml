@@ -2,7 +2,7 @@ spring:
   application:
     name: service-flyway
   profiles:
-    include: consul,datasource
+    include: consul,datasource,lala
     active: dev
   cloud:
     consul:

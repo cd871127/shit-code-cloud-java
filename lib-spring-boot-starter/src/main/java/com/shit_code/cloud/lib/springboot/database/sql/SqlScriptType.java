@@ -1,9 +1,7 @@
 package com.shit_code.cloud.lib.springboot.database.sql;
 
-import com.shit_code.cloud.lib.springboot.database.sql.generator.MultiDbTableGenerator;
+import com.shit_code.cloud.lib.springboot.database.sql.generator.MultiGenerator;
 import com.shit_code.cloud.lib.springboot.database.sql.generator.SqlScriptGenerator;
-import com.shit_code.cloud.lib.springboot.database.sql.generator.YearDayGenerator;
-import com.shit_code.cloud.lib.springboot.database.sql.generator.YearMonthGenerator;
 
 /**
  * @author Anthony Chen
@@ -13,15 +11,15 @@ public enum SqlScriptType {
     /**
      * 多库多表
      */
-    MULTI_DB_MULTI_TABLE(new MultiDbTableGenerator()),
+    MULTI_DB_MULTI_TABLE(new MultiGenerator()),
     /**
      * 年库天表
      */
-    YEAR_DB_DAY_TABLE(new YearDayGenerator()),
+    YEAR_DB_DAY_TABLE(new MultiGenerator()),
     /**
      * 年库月表
      */
-    YEAR_DB_MONTH_TABLE(new YearMonthGenerator());
+    YEAR_DB_MONTH_TABLE(new MultiGenerator());
 
     SqlScriptType(SqlScriptGenerator sqlScriptGenerator) {
         this.sqlScriptGenerator = sqlScriptGenerator;

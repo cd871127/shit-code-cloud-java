@@ -7,6 +7,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 /**
+ * 分库分表信息
+ *
  * @author Anthony Chen
  * @date 2020/2/24
  **/

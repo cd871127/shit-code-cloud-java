@@ -5,6 +5,7 @@ import com.shit_code.cloud.lib.springboot.database.sql.SqlScriptType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class SimpleScriptHandler extends AbstractSqlScriptHandler {
+public class SimpleScriptHandler extends AbstractSqlScriptHandler implements InitializingBean {
 
     @Override
     protected List<SqlScript> from() {
@@ -53,7 +54,6 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler {
         String targetLocation = sqlScriptProperties.getTargetLocation();
 
 
-
     }
 
     @Override
@@ -65,4 +65,8 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler {
         return scripts;
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        handle();
+    }
 }
