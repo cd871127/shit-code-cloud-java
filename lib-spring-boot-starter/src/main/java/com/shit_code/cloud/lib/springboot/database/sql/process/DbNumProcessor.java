@@ -1,11 +1,13 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author Anthony Chen
  * @date 2020/2/27
  **/
-
-public class DbNumProcessor extends AbstractSqlProcessor {
+@NoArgsConstructor
+public class DbNumProcessor extends AbstractTwoPositionSqlProcessor {
     public DbNumProcessor(AbstractSqlProcessor abstractSqlProcessor) {
         super(abstractSqlProcessor);
     }
@@ -15,10 +17,6 @@ public class DbNumProcessor extends AbstractSqlProcessor {
         return false;
     }
 
-    @Override
-    protected String pattern() {
-        return null;
-    }
 
     @Override
     protected String placeholder() {

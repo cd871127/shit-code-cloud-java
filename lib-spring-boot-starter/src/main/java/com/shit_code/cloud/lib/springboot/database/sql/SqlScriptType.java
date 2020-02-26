@@ -1,7 +1,6 @@
 package com.shit_code.cloud.lib.springboot.database.sql;
 
-import com.shit_code.cloud.lib.springboot.database.sql.generator.MultiGenerator;
-import com.shit_code.cloud.lib.springboot.database.sql.generator.SqlScriptGenerator;
+import com.shit_code.cloud.lib.springboot.database.sql.process.*;
 
 /**
  * @author Anthony Chen
@@ -9,25 +8,32 @@ import com.shit_code.cloud.lib.springboot.database.sql.generator.SqlScriptGenera
  **/
 public enum SqlScriptType {
     /**
+     * 不分库分表
+     */
+    NORMAL(new NormalProcessor()),
+
+    /**
      * 多库多表
      */
-    MULTI_DB_MULTI_TABLE(new MultiGenerator()),
+    MULTI_DB_MULTI_TABLE(new DbNumProcessor(new TableNumProcessor())),
+
     /**
      * 年库天表
      */
-    YEAR_DB_DAY_TABLE(new MultiGenerator()),
+    YEAR_DB_DAY_TABLE(new YearProcessor(new DayProcessor())),
+
     /**
      * 年库月表
      */
-    YEAR_DB_MONTH_TABLE(new MultiGenerator());
+    YEAR_DB_MONTH_TABLE(new YearProcessor(new MonthProcessor()));
 
-    SqlScriptType(SqlScriptGenerator sqlScriptGenerator) {
-        this.sqlScriptGenerator = sqlScriptGenerator;
+    SqlScriptType(AbstractSqlProcessor abstractSqlProcessor) {
+        this.abstractSqlProcessor = abstractSqlProcessor;
     }
 
-    private SqlScriptGenerator sqlScriptGenerator;
+    private AbstractSqlProcessor abstractSqlProcessor;
 
-    public SqlScriptGenerator getSqlScriptGenerator() {
-        return sqlScriptGenerator;
+    public AbstractSqlProcessor abstractSqlProcessor() {
+        return abstractSqlProcessor;
     }
 }

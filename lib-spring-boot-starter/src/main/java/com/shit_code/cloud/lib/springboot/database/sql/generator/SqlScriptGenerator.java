@@ -16,6 +16,6 @@ public interface SqlScriptGenerator {
      * @param scripts
      * @return
      */
-    void execute(List<SqlScript> scripts);
+    void generate(List<SqlScript> scripts);
 
 }

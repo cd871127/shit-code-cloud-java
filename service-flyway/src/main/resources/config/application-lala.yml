@@ -1,11 +1,20 @@
 shitcode:
   flyway:
     sourceLocation: D:\dev\code\shit-code-cloud-java\service-flyway\src\main\resources\db2\migration
-    targetLocation: D:\dev\code\shit-code-cloud-java\service-flyway\src\main\resources\db2
+    targetLocation: ${spring.flyway.locations.[0]}
+    script-suffix: .sql
     scripts:
       test:
-        scriptName: test
-        scriptVersion: 1
+        name: test
+        version: 1
         dbName: aaa
         tableName: bbb
-        type: MULTI_DB_MULTI_TABLE
+        sharding:
+          type: MULTI_DB_MULTI_TABLE
+      test2:
+        name: test2
+        version: 2
+        dbName: aaa
+        tableName: bbb
+        sharding:
+          type: MULTI_DB_MULTI_TABLE

@@ -23,20 +23,17 @@ allprojects {
 
 
 subprojects {
-
-    apply plugin: 'org.springframework.boot'
     apply plugin: "io.spring.dependency-management"
     apply plugin: 'java'
-
     apply plugin: 'maven-publish'
+    apply plugin: 'org.springframework.boot'
 
-    apply from: "${project.rootDir}/buildInterface.gradle"
-
-
+    bootJar {
+        rootSpec.exclude("**/config/")
+    }
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
-
 
     dependencyManagement {
         imports {
@@ -47,6 +44,9 @@ subprojects {
     dependencies {
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
         compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: commonsCollectionsVersion
+
         testImplementation group: 'junit', name: 'junit', version: '4.13'
     }
 
@@ -54,8 +54,9 @@ subprojects {
         all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
         all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
     }
-    bootJar {
-        rootSpec.exclude("**/config/")
-    }
+
 }
 apply from: "${project.rootDir}/dependencies.gradle"
+apply from: "${project.rootDir}/libPublish.gradle"
+
+

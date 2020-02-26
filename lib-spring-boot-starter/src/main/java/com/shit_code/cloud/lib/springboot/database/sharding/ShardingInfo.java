@@ -3,6 +3,7 @@ package com.shit_code.cloud.lib.springboot.database.sharding;
 import com.shit_code.cloud.lib.springboot.database.sharding.strategy.ShardingStrategy;
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScriptType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,12 @@ import java.time.LocalDate;
  * @date 2020/2/24
  **/
 @Data
+@NoArgsConstructor
 public class ShardingInfo {
+    public ShardingInfo(SqlScriptType sqlScriptType) {
+        setType(sqlScriptType);
+    }
+
     /**
      * db数量
      */

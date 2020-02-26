@@ -15,9 +15,9 @@ public class MultiGenerator extends AbstractSqlScriptGenerator {
     @Override
     protected void handleSingleScript(SqlScript sqlScript) {
 
-        sqlScript.setGeneratedContents(new ArrayList<>(sqlScript.getDbNum() * sqlScript.getTableNum()));
-        for (int dbNum = 0; dbNum < sqlScript.getDbNum(); ++dbNum) {
-            for (int tableNum = 0; tableNum < sqlScript.getTableNum(); ++tableNum) {
+        sqlScript.setGeneratedContents(new ArrayList<>(sqlScript.getSharding().getDbNum() * sqlScript.getSharding().getTableNum()));
+        for (int dbNum = 0; dbNum < sqlScript.getSharding().getDbNum(); ++dbNum) {
+            for (int tableNum = 0; tableNum < sqlScript.getSharding().getTableNum(); ++tableNum) {
                 sqlScript.getGeneratedContents().add(sqlScript.getOriginContent()
                         .replaceAll("\\$\\{dbNum}", biDigitFormat.format(dbNum))
                         .replaceAll("\\$\\{tableNum}", biDigitFormat.format(tableNum)));

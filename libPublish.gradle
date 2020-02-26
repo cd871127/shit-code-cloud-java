@@ -1,0 +1,36 @@
+configure(subprojects.findAll { it.name.startsWith("lib") }) {
+
+    task libJar(type: Jar, dependsOn: classes, description: '构建libjar包') {
+        from fileTree(dir: 'build/classes/java/main')
+        from fileTree(dir: 'build/resources/main')
+        includeEmptyDirs = false
+        destinationDirectory = jar.destinationDirectory
+    }
+
+    publishing {
+        publications {
+            commonJar(MavenPublication) {
+                artifact libJar
+                artifactId "${project.name}"
+                pom {
+                    name = "Shit-Code.${project.name}"
+                    description = "A demonstration of Maven POM customization"
+                    url = "http://www.shit-code.com"
+                    licenses {
+                        license {
+                            name = "The Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "cd871127"
+                            name = "Anthony"
+                            email = "cdistc@163.com"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

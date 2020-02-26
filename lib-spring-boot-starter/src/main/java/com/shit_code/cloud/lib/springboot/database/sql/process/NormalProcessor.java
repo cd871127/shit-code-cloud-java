@@ -1,13 +1,19 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 /**
  * @author Anthony Chen
  * @date 2020/2/27
  **/
+@NoArgsConstructor
+public class NormalProcessor extends AbstractSqlProcessor {
 
-public class YearProcessor extends AbstractSqlProcessor {
-    public YearProcessor(AbstractSqlProcessor abstractSqlProcessor) {
-        super(abstractSqlProcessor);
+    @Override
+    public String process(String sql, List<Integer> args) {
+        return sql;
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author Anthony Chen
  * @date 2020/2/27
  **/
-
+@NoArgsConstructor
 public class YearProcessor extends AbstractSqlProcessor {
     public YearProcessor(AbstractSqlProcessor abstractSqlProcessor) {
         super(abstractSqlProcessor);
@@ -19,7 +21,6 @@ public class YearProcessor extends AbstractSqlProcessor {
     protected String pattern() {
         return null;
     }
-
 
     @Override
     protected String placeholder() {

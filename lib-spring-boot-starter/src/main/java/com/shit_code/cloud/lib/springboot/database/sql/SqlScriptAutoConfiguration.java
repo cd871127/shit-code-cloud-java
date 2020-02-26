@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/2/24
  **/
 @Configuration
-@EnableConfigurationProperties(SqlScriptProperties.class)
-//@ConditionalOnClass(Flyway.class)
+@EnableConfigurationProperties({SqlScriptProperties.class, FlywayProperties.class})
+@ConditionalOnClass(Flyway.class)
 public class SqlScriptAutoConfiguration {
     @Bean
     SimpleScriptHandler simpleScriptHandler(SqlScriptProperties sqlScriptProperties, FlywayProperties flywayProperties) {

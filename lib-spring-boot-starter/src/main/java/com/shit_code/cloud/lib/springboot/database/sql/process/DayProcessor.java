@@ -1,11 +1,16 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Anthony Chen
  * @date 2020/2/27
  **/
 
-public class DayProcessor extends TwoPositionSqlProcessor {
+@NoArgsConstructor
+public class DayProcessor extends AbstractTwoPositionSqlProcessor {
     public DayProcessor(AbstractSqlProcessor abstractSqlProcessor) {
         super(abstractSqlProcessor);
     }

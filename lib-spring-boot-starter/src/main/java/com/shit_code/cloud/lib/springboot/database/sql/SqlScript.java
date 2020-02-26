@@ -10,17 +10,16 @@ import java.util.List;
  * @author Anthony Chen
  * @date 2020/2/25
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class SqlScript extends ShardingInfo {
+public class SqlScript  {
     /**
      * 脚本名称
      */
-    private String scriptName;
+    private String name;
     /**
      * 脚本版本
      */
-    private String scriptVersion;
+    private String version;
     /**
      * 脚本原始内容
      */
@@ -29,4 +28,10 @@ public class SqlScript extends ShardingInfo {
      * 生成的脚本
      */
     private List<String> generatedContents;
+
+    /**
+     * 分库分表信息
+     */
+    private ShardingInfo sharding;
+
 }

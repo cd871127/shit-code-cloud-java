@@ -17,7 +17,7 @@ public abstract class AbstractSqlScriptGenerator implements SqlScriptGenerator {
     final protected DecimalFormat biDigitFormat = new DecimalFormat("00");
 
     @Override
-    public void execute(List<SqlScript> scripts) {
+    public void generate(List<SqlScript> scripts) {
         scripts.forEach(this::handleSingleScript);
     }
 
