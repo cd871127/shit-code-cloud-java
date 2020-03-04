@@ -3,6 +3,7 @@ package com.shit_code.cloud.lib.springboot.database.sql;
 import com.shit_code.cloud.lib.springboot.database.sql.handler.SimpleScriptHandler;
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

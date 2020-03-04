@@ -12,10 +12,6 @@ public class MonthProcessor extends AbstractTwoPositionSqlProcessor {
         super(abstractSqlProcessor);
     }
 
-    @Override
-    protected boolean support(String sql) {
-        return false;
-    }
 
 
     @Override

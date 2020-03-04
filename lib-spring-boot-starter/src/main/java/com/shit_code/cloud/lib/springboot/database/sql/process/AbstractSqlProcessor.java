@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Slf4j
 @NoArgsConstructor
-public abstract class AbstractSqlProcessor {
+public abstract class AbstractSqlProcessor implements SqlProcessor {
 
     private AbstractSqlProcessor nextSqlProcessor;
 
@@ -30,6 +30,7 @@ public abstract class AbstractSqlProcessor {
      * @param args 替换的值
      * @return 新的sql
      */
+    @Override
     public String process(String sql, List<Integer> args) {
         if (CollectionUtils.isEmpty(args)) {
             log.warn("missing args");
@@ -52,7 +53,9 @@ public abstract class AbstractSqlProcessor {
      * @param sql sql本身
      * @return
      */
-    protected abstract boolean support(String sql);
+    protected boolean support(String sql) {
+        return sql.contains(placeholder());
+    }
 
     protected abstract String pattern();
 

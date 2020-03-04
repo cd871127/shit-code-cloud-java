@@ -8,6 +8,7 @@ import java.util.List;
  * @author Anthony Chen
  * @date 2020/2/27
  **/
+@Deprecated
 public class NormalGenerator implements SqlScriptGenerator {
     @Override
     public void generate(List<SqlScript> scripts) {

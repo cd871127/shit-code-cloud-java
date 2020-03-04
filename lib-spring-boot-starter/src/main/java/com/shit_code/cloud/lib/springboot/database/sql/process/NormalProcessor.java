@@ -18,7 +18,7 @@ public class NormalProcessor extends AbstractSqlProcessor {
 
     @Override
     protected boolean support(String sql) {
-        return false;
+        return true;
     }
 
     @Override

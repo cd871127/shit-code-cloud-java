@@ -27,13 +27,13 @@ public enum SqlScriptType {
      */
     YEAR_DB_MONTH_TABLE(new YearProcessor(new MonthProcessor()));
 
-    SqlScriptType(AbstractSqlProcessor abstractSqlProcessor) {
-        this.abstractSqlProcessor = abstractSqlProcessor;
+    SqlScriptType(SqlProcessor sqlProcessor) {
+        this.sqlProcessor = sqlProcessor;
     }
 
-    private AbstractSqlProcessor abstractSqlProcessor;
+    private SqlProcessor sqlProcessor;
 
-    public AbstractSqlProcessor abstractSqlProcessor() {
-        return abstractSqlProcessor;
+    public SqlProcessor sqlProcessor() {
+        return sqlProcessor;
     }
 }

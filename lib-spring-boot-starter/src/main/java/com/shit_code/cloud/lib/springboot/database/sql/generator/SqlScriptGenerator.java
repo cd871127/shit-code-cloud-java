@@ -8,6 +8,7 @@ import java.util.List;
  * @author Anthony Chen
  * @date 2020/2/26
  **/
+@Deprecated
 public interface SqlScriptGenerator {
 
     /**

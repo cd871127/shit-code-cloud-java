@@ -11,6 +11,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Anthony Chen
@@ -67,7 +68,7 @@ public class LocalConfigLoader implements ConfigLoader {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(file)) {
-                    String config = Files.lines(file).reduce((s1, s2) -> s1 + "\n" + s2).orElse("");
+                    String config = Files.lines(file).collect(Collectors.joining("\n"));
                     configContents.add(new ConfigContent(config, configPath.relativize(file)));
                 }
                 return FileVisitResult.CONTINUE;

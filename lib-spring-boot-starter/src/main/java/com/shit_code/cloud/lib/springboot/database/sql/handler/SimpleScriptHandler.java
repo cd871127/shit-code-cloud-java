@@ -71,7 +71,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
     protected void to(List<SqlScript> scripts) {
         String targetLocation = parseLocation(sqlScriptProperties.getTargetLocation());
         scripts.forEach(sqlScript -> {
-            AtomicInteger subVersion=new AtomicInteger(1);
+            AtomicInteger subVersion = new AtomicInteger(1);
             sqlScript.getGeneratedContents().forEach((script) -> {
                 String filePath = targetLocation + File.separator + flywayProperties.getSqlMigrationPrefix()
                         + sqlScript.getVersion()
@@ -92,17 +92,12 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
 
     @Override
     protected List<SqlScript> doHandle(List<SqlScript> scripts) {
-        Map<SqlScriptType, List<SqlScript>> groupingScript = scripts.stream()
-                .collect(Collectors.groupingBy(sqlScript -> {
-                    if (sqlScript.getSharding() != null) {
-                        return sqlScript.getSharding().getType();
-                    }
-                    return SqlScriptType.NORMAL;
-                }));
-        for (SqlScriptType sqlScriptType : SqlScriptType.values()) {
-            sqlScriptType.getSqlScriptGenerator().generate(groupingScript.getOrDefault(sqlScriptType, Collections.emptyList()));
-        }
-        return scripts;
+        return scripts.parallelStream().peek(sqlScript -> {
+            if (sqlScript.getSharding() == null) {
+                sqlScript.setSharding(new ShardingInfo(SqlScriptType.NORMAL));
+            }
+        }).peek(sqlScript -> sqlScript.getSharding().getType().sqlProcessor().process(sqlScript.getOriginContent(), null))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -144,7 +139,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         }
         //设置配置
         try {
-            sqlScript.setOriginContent(Files.lines(filePath).reduce((s1, s2) -> s1 + "\n" + s2).orElse(""));
+            sqlScript.setOriginContent(Files.lines(filePath).collect(Collectors.joining("\n")));
         } catch (IOException e) {
             sqlScript.setOriginContent("");
         }

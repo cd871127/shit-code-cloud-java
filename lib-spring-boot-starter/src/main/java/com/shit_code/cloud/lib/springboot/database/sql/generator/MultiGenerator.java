@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * @author Anthony Chen
  * @date 2020/2/26
  **/
+@Deprecated
 public class MultiGenerator extends AbstractSqlScriptGenerator {
 
     @Override

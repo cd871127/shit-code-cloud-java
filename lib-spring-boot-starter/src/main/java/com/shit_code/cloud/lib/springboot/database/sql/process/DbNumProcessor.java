@@ -12,10 +12,7 @@ public class DbNumProcessor extends AbstractTwoPositionSqlProcessor {
         super(abstractSqlProcessor);
     }
 
-    @Override
-    protected boolean support(String sql) {
-        return false;
-    }
+
 
 
     @Override
