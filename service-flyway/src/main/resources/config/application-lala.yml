@@ -18,3 +18,17 @@ shitcode:
         tableName: bbb
         sharding:
           type: MULTI_DB_MULTI_TABLE
+      test3:
+        name: test3
+        version: 3
+        dbName: aaa
+        tableName: bbb
+        sharding:
+          type: MULTI_DB_MULTI_TABLE
+      test4:
+        name: test4
+        version: 4
+        dbName: aaa
+        tableName: bbb
+        sharding:
+          type: MULTI_DB_MULTI_TABLE

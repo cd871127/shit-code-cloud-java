@@ -33,6 +33,6 @@ public class SqlScript {
     /**
      * 分库分表信息
      */
-    private ShardingInfo sharding;
+    private ShardingInfo sharding = new ShardingInfo();
 
 }

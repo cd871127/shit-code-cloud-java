@@ -90,7 +90,9 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
 
     @Override
     protected List<SqlScript> doHandle(List<SqlScript> scripts) {
-        return scripts.parallelStream().peek(sqlScript -> processorChain.go(sqlScript)).collect(Collectors.toList());
+        scripts.forEach(sqlScript -> processorChain.go(sqlScript));
+        return scripts;
+//        return scripts.parallelStream().peek(sqlScript -> processorChain.go(sqlScript)).collect(Collectors.toList());
     }
 
     @Override

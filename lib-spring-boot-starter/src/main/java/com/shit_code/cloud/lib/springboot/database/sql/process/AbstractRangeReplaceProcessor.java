@@ -18,9 +18,9 @@ public abstract class AbstractRangeReplaceProcessor extends AbstractProcessor {
         final int start = startIndex(sqlScript);
         final int end = endIndex(sqlScript);
         Format format = format();
-
-        sqlScript.setSqlList(sqlScript.getSqlList().parallelStream().flatMap(
-                sql -> IntStream.rangeClosed(start, end)
+        //TODO 并行
+        sqlScript.setSqlList(sqlScript.getSqlList().stream().flatMap(
+                sql -> IntStream.range(start, end)
                         .mapToObj(index -> sql.replaceAll(placeHolder(), format.format(index)))
         ).collect(Collectors.toList()));
     }
@@ -58,8 +58,15 @@ public abstract class AbstractRangeReplaceProcessor extends AbstractProcessor {
      */
     @Override
     protected boolean support(SqlScript sqlScript) {
-        return sqlScript.getTemplate().contains(placeHolder());
+        return sqlScript.getTemplate().contains(replaceFlag());
     }
+
+    /**
+     * 替换标记
+     *
+     * @return
+     */
+    protected abstract String replaceFlag();
 
     /**
      * 占位符

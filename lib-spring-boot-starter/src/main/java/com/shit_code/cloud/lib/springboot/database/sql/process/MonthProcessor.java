@@ -6,26 +6,25 @@ import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
  * @author Anthony Chen
  * @date 2020/3/4
  **/
-public class TableNumProcessor extends AbstractRangeReplaceProcessor {
-
+public class MonthProcessor extends AbstractRangeReplaceProcessor {
 
     @Override
     protected int startIndex(SqlScript sqlScript) {
-        return 0;
+        return sqlScript.getSharding().getMonth();
     }
 
     @Override
     protected int endIndex(SqlScript sqlScript) {
-        return sqlScript.getSharding().getTableNum();
+        return 13;
     }
 
     @Override
     protected String replaceFlag() {
-        return "${tableNum}";
+        return "${month}";
     }
 
     @Override
     protected String placeHolder() {
-        return "\\$\\{tableNum}";
+        return "\\$\\{month}";
     }
 }

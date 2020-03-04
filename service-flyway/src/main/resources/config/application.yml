@@ -9,7 +9,7 @@ spring:
     #链接重试次数 默认0
     connect-retries: 0
     #设定需要flyway迁移的schema，大小写敏感 默认为连接默认的schema
-    schemas: ['test1']
+    schemas: ['flyway']
     #flyway使用的元数据表名 默认flyway_schema_history
     table: flyway_schema_history
     #Tablespace in which the schema history table is created

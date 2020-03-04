@@ -7,6 +7,7 @@ import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
  * @date 2020/3/4
  **/
 public class ProcessorChain {
+
     private SqlProcessor sqlProcessor;
 
     /**
@@ -16,9 +17,10 @@ public class ProcessorChain {
      */
     public ProcessorChain registry(SqlProcessor sqlProcessor) {
         if (this.sqlProcessor != null) {
-            this.sqlProcessor.setNextSqlProcessor(sqlProcessor);
+            sqlProcessor.setNextSqlProcessor(this.sqlProcessor);
         }
         this.sqlProcessor = sqlProcessor;
+
         return this;
     }
 
@@ -27,6 +29,7 @@ public class ProcessorChain {
     }
 
     public static ProcessorChain getDefaultInstance() {
-        return new ProcessorChain().registry(new DbNumProcessor()).registry(new TableNumProcessor());
+        return new ProcessorChain().registry(new DbNumProcessor()).registry(new TableNumProcessor())
+                .registry(new YearProcessor()).registry(new DayProcessor()).registry(new MonthProcessor());
     }
 }

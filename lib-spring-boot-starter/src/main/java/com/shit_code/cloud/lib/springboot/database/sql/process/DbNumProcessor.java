@@ -20,6 +20,11 @@ public class DbNumProcessor extends AbstractRangeReplaceProcessor {
     }
 
     @Override
+    protected String replaceFlag() {
+        return "${dbNum}";
+    }
+
+    @Override
     protected String placeHolder() {
         return "\\$\\{dbNum}";
     }
