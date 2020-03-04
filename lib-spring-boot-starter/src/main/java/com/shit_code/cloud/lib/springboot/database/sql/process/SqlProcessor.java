@@ -1,19 +1,24 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
-        import java.util.List;
+import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 
 /**
  * @author Anthony Chen
  * @date 2020/3/4
  **/
-@FunctionalInterface
 public interface SqlProcessor {
     /**
      * 处理sql
      *
-     * @param sql
-     * @param args
+     * @param sqlScript
      * @return
      */
-    String process(String sql, List<Integer> args);
+    void process(SqlScript sqlScript);
+
+    /**
+     * 设置下一个
+     *
+     * @param sqlProcessor
+     */
+    void setNextSqlProcessor(SqlProcessor sqlProcessor);
 }

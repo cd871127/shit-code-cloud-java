@@ -28,7 +28,7 @@
         <logger name="org.apache.shiro" level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </logger>
-        <logger name="com.shit_code.cloud" level="DEBUG">
+        <logger name="com.shit_code" level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>

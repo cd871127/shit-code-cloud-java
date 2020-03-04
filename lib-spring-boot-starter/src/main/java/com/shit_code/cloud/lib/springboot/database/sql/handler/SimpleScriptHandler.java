@@ -1,8 +1,7 @@
 package com.shit_code.cloud.lib.springboot.database.sql.handler;
 
-import com.shit_code.cloud.lib.springboot.database.sharding.ShardingInfo;
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
-import com.shit_code.cloud.lib.springboot.database.sql.SqlScriptType;
+import com.shit_code.cloud.lib.springboot.database.sql.process.ProcessorChain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -72,7 +70,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         String targetLocation = parseLocation(sqlScriptProperties.getTargetLocation());
         scripts.forEach(sqlScript -> {
             AtomicInteger subVersion = new AtomicInteger(1);
-            sqlScript.getGeneratedContents().forEach((script) -> {
+            sqlScript.getSqlList().forEach((script) -> {
                 String filePath = targetLocation + File.separator + flywayProperties.getSqlMigrationPrefix()
                         + sqlScript.getVersion()
                         + "." + subVersion.getAndAdd(1)
@@ -92,12 +90,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
 
     @Override
     protected List<SqlScript> doHandle(List<SqlScript> scripts) {
-        return scripts.parallelStream().peek(sqlScript -> {
-            if (sqlScript.getSharding() == null) {
-                sqlScript.setSharding(new ShardingInfo(SqlScriptType.NORMAL));
-            }
-        }).peek(sqlScript -> sqlScript.getSharding().getType().sqlProcessor().process(sqlScript.getOriginContent(), null))
-                .collect(Collectors.toList());
+        return scripts.parallelStream().peek(sqlScript -> processorChain.go(sqlScript)).collect(Collectors.toList());
     }
 
     @Override
@@ -135,13 +128,12 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
                 .getOrDefault(filePath.getFileName().toString().replace(sqlScriptProperties.getScriptSuffix(), ""), null);
         if (sqlScript == null) {
             sqlScript = new SqlScript();
-            sqlScript.setSharding(new ShardingInfo(SqlScriptType.NORMAL));
         }
         //设置配置
         try {
-            sqlScript.setOriginContent(Files.lines(filePath).collect(Collectors.joining("\n")));
+            sqlScript.setTemplate(Files.lines(filePath).collect(Collectors.joining("\n")));
         } catch (IOException e) {
-            sqlScript.setOriginContent("");
+            sqlScript.setTemplate("");
         }
         return sqlScript;
     }

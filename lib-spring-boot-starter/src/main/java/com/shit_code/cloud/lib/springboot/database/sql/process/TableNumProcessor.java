@@ -1,24 +1,26 @@
 package com.shit_code.cloud.lib.springboot.database.sql.process;
 
-import lombok.NoArgsConstructor;
+import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 
 /**
  * @author Anthony Chen
- * @date 2020/2/27
+ * @date 2020/3/4
  **/
-@NoArgsConstructor
-public class TableNumProcessor extends AbstractTwoPositionSqlProcessor {
-    public TableNumProcessor(AbstractSqlProcessor abstractSqlProcessor) {
-        super(abstractSqlProcessor);
+public class TableNumProcessor extends AbstractRangeReplaceProcessor {
+
+
+    @Override
+    protected int startIndex(SqlScript sqlScript) {
+        return 0;
     }
 
     @Override
-    protected boolean support(String sql) {
-        return false;
+    protected int endIndex(SqlScript sqlScript) {
+        return sqlScript.getSharding().getTableNum();
     }
 
     @Override
-    protected String placeholder() {
-        return null;
+    protected String placeHolder() {
+        return "\\$\\{tableNum}";
     }
 }

@@ -2,6 +2,7 @@ package com.shit_code.cloud.lib.springboot.database.sql.handler;
 
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScriptProperties;
+import com.shit_code.cloud.lib.springboot.database.sql.process.ProcessorChain;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 
@@ -17,6 +18,8 @@ public abstract class AbstractSqlScriptHandler implements SqlScriptHandler {
     protected SqlScriptProperties sqlScriptProperties;
 
     protected FlywayProperties flywayProperties;
+
+    protected ProcessorChain processorChain;
 
     @Override
     public void handle() {

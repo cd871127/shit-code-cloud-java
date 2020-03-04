@@ -22,13 +22,13 @@ public class SqlScript {
      */
     private String version;
     /**
-     * 脚本原始内容
+     * 脚本模板
      */
-    private String originContent;
+    private String template;
     /**
      * 生成的脚本
      */
-    private List<String> generatedContents;
+    private List<String> sqlList;
 
     /**
      * 分库分表信息
