@@ -1,15 +1,17 @@
 package com.shit_code.cloud.consul.config.loader;
 
-import com.shit_code.cloud.consul.config.ConfigContent;
+import com.shit_code.cloud.consul.config.Config;
 import com.shit_code.cloud.consul.config.ConfigProperties;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,15 +27,20 @@ public class LocalConfigLoader implements ConfigLoader {
     private ConfigProperties.LocalConfig localConfig;
 
 
+    /**
+     * 加载配置
+     *
+     * @return
+     */
     @Override
-    public List<ConfigContent> loadConfig() {
+    public List<Config> loadConfig() {
         final PathMatcher pathMatcher = buildPathMatcher();
         try {
             return walkDir(pathMatcher);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     /**
@@ -61,15 +68,19 @@ public class LocalConfigLoader implements ConfigLoader {
      * @return
      * @throws IOException
      */
-    private List<ConfigContent> walkDir(PathMatcher pathMatcher) throws IOException {
+    private List<Config> walkDir(PathMatcher pathMatcher) throws IOException {
         final Path configPath = Paths.get(localConfig.getPath());
-        List<ConfigContent> configContents = new ArrayList<>();
+        List<Config> configContents = new ArrayList<>();
         Files.walkFileTree(configPath, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(file)) {
-                    String config = Files.lines(file).collect(Collectors.joining("\n"));
-                    configContents.add(new ConfigContent(config, configPath.relativize(file)));
+                    String configValue = Files.lines(file).collect(Collectors.joining("\n"));
+                    if (StringUtils.isNotEmpty(configValue)) {
+                        configContents.add(new Config(configPath.relativize(file).toString().replaceAll("\\\\", "/"), configValue));
+                    } else {
+                        log.warn("配置文件{},读取失败", file);
+                    }
                 }
                 return FileVisitResult.CONTINUE;
             }

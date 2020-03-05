@@ -1,7 +1,8 @@
 package com.shit_code.cloud.consul.config.loader;
 
-import com.shit_code.cloud.consul.config.ConfigContent;
+import com.shit_code.cloud.consul.config.Config;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  **/
 public class DatabaseConfigLoader implements ConfigLoader {
     @Override
-    public List<ConfigContent> loadConfig() {
-        return null;
+    public List<Config> loadConfig() {
+        return Collections.emptyList();
     }
 }

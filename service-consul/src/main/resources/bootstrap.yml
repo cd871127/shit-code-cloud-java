@@ -4,6 +4,8 @@ shit_code:
       local:
         path: D:\dev\code\shit-code-cloud-java\app-config
         suffix: yml
+      git: 1
+      database: 2
     request:
       url: localhost
       port: 8500

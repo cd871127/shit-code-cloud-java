@@ -1,6 +1,6 @@
 package com.shit_code.cloud.consul.config.loader;
 
-import com.shit_code.cloud.consul.config.ConfigContent;
+import com.shit_code.cloud.consul.config.Config;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface ConfigLoader {
      *
      * @return 配置实体
      */
-    List<ConfigContent> loadConfig();
+    List<Config> loadConfig();
 }
