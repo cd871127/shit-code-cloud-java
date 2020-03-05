@@ -30,6 +30,6 @@ public class ProcessorChain {
 
     public static ProcessorChain getDefaultInstance() {
         return new ProcessorChain().registry(new DbNumProcessor()).registry(new TableNumProcessor())
-                .registry(new YearProcessor()).registry(new DayProcessor()).registry(new MonthProcessor());
+                .registry(new DateProcessor());
     }
 }

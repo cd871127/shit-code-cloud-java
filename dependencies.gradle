@@ -1,8 +1,9 @@
 String[] excludeProjects = ['lib-spring-boot-starter', 'lib-core']
-
 configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
     apply from: "${project.rootDir}/buildInterface.gradle"
-
+    //打包自动推送lib包到本地仓库
+    compileJava.dependsOn(":lib-spring-boot-starter:publishToMavenLocal")
+    compileJava.dependsOn(":lib-core:publishToMavenLocal")
 //common dependencies
     dependencies {
         implementation group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion
@@ -16,18 +17,12 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging'
         implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
         annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-
-
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-
-//        implementation project(":lib-spring-boot-starter")
-//        implementation project(":lib-core")
         implementation group: 'com.shit_code.cloud', name: 'lib-spring-boot-starter', version: '0.0.1'
     }
 }
 
 String[] redisProjects = ['service-shiro']
-
 configure(subprojects.findAll { redisProjects.contains(it.name) }) {
     dependencies {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
@@ -35,7 +30,6 @@ configure(subprojects.findAll { redisProjects.contains(it.name) }) {
 }
 
 String[] mysqlProjects = ['service-shiro']
-
 configure(subprojects.findAll { mysqlProjects.contains(it.name) }) {
     dependencies {
         implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion

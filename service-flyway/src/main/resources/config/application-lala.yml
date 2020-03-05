@@ -4,31 +4,26 @@ shitcode:
     targetLocation: ${spring.flyway.locations.[0]}
     script-suffix: .sql
     scripts:
+      #key需要和文件名一致
       test:
+        #name是输出的文件的名字
         name: test
         version: 1
-        dbName: aaa
-        tableName: bbb
         sharding:
-          type: MULTI_DB_MULTI_TABLE
+          dbName: aaa
+          tableName: bbb
       test2:
         name: test2
         version: 2
-        dbName: aaa
-        tableName: bbb
-        sharding:
-          type: MULTI_DB_MULTI_TABLE
       test3:
         name: test3
+        startDate: 2020-03-03
+        endDate: 2021-03-03
         version: 3
-        dbName: aaa
-        tableName: bbb
-        sharding:
-          type: MULTI_DB_MULTI_TABLE
       test4:
         name: test4
         version: 4
-        dbName: aaa
-        tableName: bbb
+        startDate: 2020-03-03
+        endDate: 2021-03-03
         sharding:
           type: MULTI_DB_MULTI_TABLE

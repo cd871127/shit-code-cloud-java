@@ -16,5 +16,4 @@ public class RoleService {
     @Resource
     private RoleMapper roleMapper;
 
-
 }

@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ShardingInfo {
 
-
     /**
      * db数量
      */
@@ -38,8 +37,4 @@ public class ShardingInfo {
      */
     private Class<ShardingStrategy> shardingStrategyClass;
 
-
-    private Integer year = LocalDate.now().getYear();
-    private Integer month = LocalDate.now().getMonthValue();
-    private Integer day = LocalDate.now().getDayOfMonth();
 }

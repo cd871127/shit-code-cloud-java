@@ -1,1 +1,1 @@
-create database aaaa_${year};
+create database aaaa_${year}_$;

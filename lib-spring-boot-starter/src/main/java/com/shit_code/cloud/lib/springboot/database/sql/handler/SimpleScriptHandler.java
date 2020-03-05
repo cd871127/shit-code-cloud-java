@@ -1,7 +1,6 @@
 package com.shit_code.cloud.lib.springboot.database.sql.handler;
 
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
-import com.shit_code.cloud.lib.springboot.database.sql.process.ProcessorChain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -78,8 +77,13 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
                         + sqlScript.getName()
                         + sqlScriptProperties.getScriptSuffix();
                 try {
-                    log.debug("Write sql script: {}", filePath);
-                    Files.write(Paths.get(filePath), script.getBytes(StandardCharsets.UTF_8));
+                    Path file = Paths.get(filePath);
+                    if (!file.toFile().exists()) {
+                        log.debug("Write sql script: {}", filePath);
+                        Files.write(Paths.get(filePath), script.getBytes(StandardCharsets.UTF_8));
+                    } else {
+                        log.debug("File {} already exists", filePath);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -131,7 +135,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         if (sqlScript == null) {
             sqlScript = new SqlScript();
         }
-        //设置配置
+        //读取配置
         try {
             sqlScript.setTemplate(Files.lines(filePath).collect(Collectors.joining("\n")));
         } catch (IOException e) {

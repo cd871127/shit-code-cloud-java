@@ -3,6 +3,7 @@ package com.shit_code.cloud.lib.springboot.database.sql;
 import com.shit_code.cloud.lib.springboot.database.sharding.ShardingInfo;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -31,8 +32,24 @@ public class SqlScript {
     private List<String> sqlList;
 
     /**
+     * 时间分表起始日期
+     */
+    private LocalDate startDate = LocalDate.now();
+    /**
+     * 时间分表终止
+     */
+    private LocalDate endDate;
+
+    /**
      * 分库分表信息
      */
     private ShardingInfo sharding = new ShardingInfo();
 
+    public void setStartDate(String date) {
+        this.startDate = LocalDate.parse(date);
+    }
+
+    public void setEndDate(String date) {
+        this.endDate = LocalDate.parse(date);
+    }
 }

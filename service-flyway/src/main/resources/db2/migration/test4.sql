@@ -1,4 +1,4 @@
-create table aaaa_${year}.tttt_${month}_${day}
+create table aaaa_${year}.tttt_${month}_$
 (
     a int
 );
