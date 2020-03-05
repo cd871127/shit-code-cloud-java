@@ -1,5 +1,9 @@
 String[] excludeProjects = ['lib-spring-boot-starter', 'lib-core']
 configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
+    apply plugin: 'org.springframework.boot'
+    bootJar {
+        rootSpec.exclude("**/config/")
+    }
     apply from: "${project.rootDir}/buildInterface.gradle"
     //打包自动推送lib包到本地仓库
     compileJava.dependsOn(":lib-spring-boot-starter:publishToMavenLocal")

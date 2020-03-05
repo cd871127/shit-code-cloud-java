@@ -3,8 +3,6 @@ package com.shit_code.cloud.auth;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-
 /**
  * @author Anthony Chen
  * @date 2020/2/12
@@ -12,11 +10,12 @@ import javax.annotation.Resource;
 @RestController("/")
 public class TestController {
 
-    @Resource
-    private UserServiceClient userService;
+//    @Resource
+//    private UserServiceClient userService;
 
     @GetMapping("test")
     public String teset() {
-        return userService.queryUserById().getUserId();
+//        return userService.queryUserById().getUserId();
+        return "";
     }
 }

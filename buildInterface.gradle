@@ -1,9 +1,9 @@
-task compileInterface(type: JavaCompile, description: '编译接口jar包') {
+task compileSevice(type: JavaCompile, description: '编译接口jar包') {
     sourceCompatibility = compileJava.sourceCompatibility
     targetCompatibility = compileJava.targetCompatibility
     source = compileJava.source
-    include '**/service/'
-    include '**/dto/'
+    include '**/expose/'
+//    include '**/dto/'
     destinationDirectory = compileJava.destinationDirectory
     classpath = compileJava.classpath
     //使用annotationProcessor
@@ -11,8 +11,9 @@ task compileInterface(type: JavaCompile, description: '编译接口jar包') {
     options.annotationProcessorGeneratedSourcesDirectory = compileJava.options.annotationProcessorGeneratedSourcesDirectory
 }
 
-task buildInterface(type: Jar, dependsOn: compileInterface, description: '构建接口jar包') {
-    from fileTree(dir: 'build/classes/java/main', includes: ['**/service/', '**/dto/'], excludes: ['**/service/impl/'])
+task buildSevice(type: Jar, dependsOn: compileSevice, description: '构建接口jar包') {
+//    from fileTree(dir: 'build/classes/java/main', includes: ['**/expose/', '**/dto/'], excludes: ['**/service/impl/'])
+    from fileTree(dir: 'build/classes/java/main', includes: ['**/expose/'])
     includeEmptyDirs = false
     archiveAppendix = 'service'
     destinationDirectory = jar.destinationDirectory
@@ -20,7 +21,7 @@ task buildInterface(type: Jar, dependsOn: compileInterface, description: '构建
 publishing {
     publications {
         serviceJar(MavenPublication) {
-            artifact buildInterface
+            artifact buildSevice
             artifactId "${project.name}-service"
             pom {
                 name = "Shit-Code.${project.name}"
