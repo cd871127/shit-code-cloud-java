@@ -7,11 +7,13 @@ import com.ecwid.consul.v1.kv.model.PutParams;
 import com.shit_code.cloud.consul.config.configuration.Config;
 import com.shit_code.cloud.consul.config.configuration.ConfigProperties;
 import com.shit_code.cloud.consul.config.loader.ConfigLoader;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -38,49 +40,51 @@ public class ConfigManager {
      *
      * @return
      */
-    public void reloadConfig(String applicationName) {
-        cleanConfig(applicationName);
-        pushConfig(applicationName, false);
+    public void reloadConfig() {
+        cleanConfig();
+        pushConfig(false);
     }
 
     /**
      * @param overwrite 是否覆盖
      * @return 加载配置
      */
-    public void pushConfig(String applicationName, boolean overwrite) {
+    public void pushConfig(boolean overwrite) {
         PutParams putParams = null;
         QueryParams queryParams = null;
         String token = null;
-
+        String keyPrefix = getKeyPrefix();
         Stream<Config> stream = configLoaders.stream()
-                .flatMap(configLoader -> configLoader.loadConfig().stream())
-                .distinct();
+                .flatMap(configLoader -> configLoader.loadConfig().stream()).distinct()
+                .filter(config -> config.getEnv().contains(configProperties.getEnv()));
 
-        //过滤应用的
-        if (StringUtils.isNotEmpty(applicationName)) {
-            stream = stream.filter(config -> applicationName.equals(config.getApplication()));
-        }
         //不覆盖就需要过滤已有的key
         if (!overwrite) {
-            String keyPrefix = configProperties.getConsulRoot() + "/" + configProperties.getEnv();
             String separator = null;
             Response<List<String>> consulResponse = consulClient.getKVKeysOnly(keyPrefix, separator, token, queryParams);
-            stream = stream.filter(config -> !consulResponse.getValue().contains(config.getKey()));
+            if (consulResponse != null && CollectionUtils.isNotEmpty(consulResponse.getValue())) {
+                Set<String> valueSet = consulResponse.getValue().parallelStream().collect(Collectors.toSet());
+                stream = stream.filter(config -> !valueSet.contains(configProperties.getConsulRoot() + "/" + config.getKey()));
+            }
         }
 
         stream.forEach(config ->
-                consulClient.setKVValue(config.getKey(), config.getValue(), token, putParams, queryParams)
+                consulClient.setKVValue(configProperties.getConsulRoot() + "/" + config.getKey(), config.getValue(), token, putParams, queryParams)
         );
     }
 
-    public void cleanConfig(String applicationName) {
-        String keyPrefix = "";
+    public void cleanConfig() {
+        String keyPrefix = getKeyPrefix();
         String separator = null;
         String token = null;
         QueryParams queryParams = null;
-        Response<List<String>> consulResponse = consulClient.getKVKeysOnly(keyPrefix, separator, token, queryParams);
-        consulResponse.getValue().parallelStream().forEach(key -> consulClient.deleteKVValue(key, token, queryParams));
+        consulClient.deleteKVValues(keyPrefix, token, queryParams);
+//        Response<List<String>> consulResponse = consulClient.getKVKeysOnly(keyPrefix, separator, token, queryParams);
+//        consulResponse.getValue().parallelStream().forEach(key -> consulClient.deleteKVValue(key, token, queryParams));
     }
 
+    private String getKeyPrefix() {
+        return configProperties.getConsulRoot() + "/" + configProperties.getEnv();
+    }
 
 }

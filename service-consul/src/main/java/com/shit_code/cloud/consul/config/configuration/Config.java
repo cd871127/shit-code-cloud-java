@@ -23,10 +23,6 @@ public class Config {
      */
     private String value;
 
-    /**
-     * 配置应用
-     */
-    private String application;
 
     /**
      * 配置名称
@@ -39,7 +35,7 @@ public class Config {
     private String env;
 
     public String getKey() {
-        return env + "/" + application + "/" + name;
+        return env + "/" + name;
     }
 
     @Override
@@ -64,16 +60,11 @@ public class Config {
             if (path == null) {
                 return null;
             }
-            Path application = path.getParent();
-            if (application == null) {
-                return null;
-            }
-            Path env = application.getParent();
+            Path env = path.getParent();
             if (env == null) {
                 return null;
             }
-            return Config.builder().application(application.getFileName().toString())
-                    .env(env.getFileName().toString())
+            return Config.builder().env(env.getFileName().toString())
                     .name(path.getFileName().toString())
                     .value(value).build();
         }

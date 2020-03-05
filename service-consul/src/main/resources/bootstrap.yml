@@ -3,7 +3,6 @@ shit_code:
     config:
       env: ${spring.profiles.active}
       local:
-        enable: false
         path: D:\dev\code\shit-code-cloud-java\app-config
         suffix: yml
       git: 1
