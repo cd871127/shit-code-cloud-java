@@ -22,7 +22,7 @@ public class ConfigConfiguration {
     @Order(10)
     @ConditionalOnProperty(prefix = Constants.CONFIG_PREFIX, value = "local.enable", havingValue = "true", matchIfMissing = true)
     LocalConfigLoader localConfigLoader(ConfigProperties configProperties) {
-        return new LocalConfigLoader(configProperties.getLocal());
+        return new LocalConfigLoader(configProperties);
     }
 
     @Bean

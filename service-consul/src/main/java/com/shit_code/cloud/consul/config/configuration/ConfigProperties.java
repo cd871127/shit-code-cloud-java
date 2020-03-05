@@ -22,15 +22,18 @@ public class ConfigProperties {
 
     private DatabaseConfig database;
 
-    private GitConfig gitConfig;
+    private GitConfig git;
 
-    private String env;
+    private String env = "";
+
+    private String consulRoot = "config";
 
     @Data
     public static class LocalConfig {
         private String path;
 
         private List<String> suffix;
+
     }
 
     @Data

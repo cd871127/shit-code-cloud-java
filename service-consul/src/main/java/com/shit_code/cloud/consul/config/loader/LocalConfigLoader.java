@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LocalConfigLoader implements ConfigLoader {
 
-    private ConfigProperties.LocalConfig localConfig;
+    private ConfigProperties configProperties;
 
     /**
      * 加载配置
@@ -50,7 +50,7 @@ public class LocalConfigLoader implements ConfigLoader {
     private PathMatcher buildPathMatcher() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("glob:**/*.{");
-        localConfig.getSuffix().forEach((suffix) -> {
+        configProperties.getLocal().getSuffix().forEach((suffix) -> {
             stringBuffer.append(suffix);
             stringBuffer.append(",");
         });
@@ -68,15 +68,17 @@ public class LocalConfigLoader implements ConfigLoader {
      * @throws IOException
      */
     private List<Config> walkDir(PathMatcher pathMatcher) throws IOException {
-        final Path configPath = Paths.get(localConfig.getPath());
+        final Path configPath = Paths.get(configProperties.getLocal().getPath() + "/" + configProperties.getEnv());
+        final Path rootPath = Paths.get(configProperties.getLocal().getPath());
         List<Config> configContents = new ArrayList<>();
         Files.walkFileTree(configPath, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(file)) {
                     String configValue = Files.lines(file).collect(Collectors.joining("\n"));
-                    if (StringUtils.isNotEmpty(configValue)) {
-                        configContents.add(Config.ConfigFactory.createConfig(file, configValue));
+                    Config config = Config.ConfigFactory.createConfig(rootPath.relativize(file), configValue);
+                    if (StringUtils.isNotEmpty(configValue) && config != null) {
+                        configContents.add(config);
                     } else {
                         log.warn("配置文件{},读取失败", file);
                     }

@@ -18,10 +18,15 @@ public class LocalConfigLoaderTest {
         ConfigProperties.LocalConfig localConfig = new ConfigProperties.LocalConfig();
         localConfig.setPath("D:\\dev\\code\\shit-code-cloud-java\\app-config");
         localConfig.setSuffix(Collections.singletonList("yml"));
-
-        LocalConfigLoader localConfigLoader = new LocalConfigLoader(localConfig);
+        ConfigProperties configProperties=new ConfigProperties();
+        configProperties.setLocal(localConfig);
+        configProperties.setEnv("");
+        LocalConfigLoader localConfigLoader = new LocalConfigLoader(configProperties);
         List<Config> configs = localConfigLoader.loadConfig();
-        System.out.println(1);
+        System.out.println(configs.size());
+        configProperties.setEnv("dev");
+        configs = localConfigLoader.loadConfig();
+        System.out.println(configs.size());
 //        localConfigLoader.loadConfig();
     }
 }

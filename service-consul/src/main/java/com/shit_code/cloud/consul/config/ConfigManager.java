@@ -7,6 +7,7 @@ import com.ecwid.consul.v1.kv.model.PutParams;
 import com.shit_code.cloud.consul.config.configuration.Config;
 import com.shit_code.cloud.consul.config.configuration.ConfigProperties;
 import com.shit_code.cloud.consul.config.loader.ConfigLoader;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -37,26 +38,31 @@ public class ConfigManager {
      *
      * @return
      */
-    public void reload(String applicationName) {
-        clean(applicationName);
-        load(applicationName, false);
+    public void reloadConfig(String applicationName) {
+        cleanConfig(applicationName);
+        pushConfig(applicationName, false);
     }
-//  dev/application/files
 
     /**
      * @param overwrite 是否覆盖
      * @return 加载配置
      */
-    public void load(String applicationName, boolean overwrite) {
+    public void pushConfig(String applicationName, boolean overwrite) {
         PutParams putParams = null;
         QueryParams queryParams = null;
         String token = null;
+
         Stream<Config> stream = configLoaders.stream()
                 .flatMap(configLoader -> configLoader.loadConfig().stream())
                 .distinct();
+
+        //过滤应用的
+        if (StringUtils.isNotEmpty(applicationName)) {
+            stream = stream.filter(config -> applicationName.equals(config.getApplication()));
+        }
         //不覆盖就需要过滤已有的key
         if (!overwrite) {
-            String keyPrefix = "";
+            String keyPrefix = configProperties.getConsulRoot() + "/" + configProperties.getEnv();
             String separator = null;
             Response<List<String>> consulResponse = consulClient.getKVKeysOnly(keyPrefix, separator, token, queryParams);
             stream = stream.filter(config -> !consulResponse.getValue().contains(config.getKey()));
@@ -67,7 +73,7 @@ public class ConfigManager {
         );
     }
 
-    public void clean(String applicationName) {
+    public void cleanConfig(String applicationName) {
         String keyPrefix = "";
         String separator = null;
         String token = null;

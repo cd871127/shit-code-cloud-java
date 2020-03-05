@@ -61,8 +61,19 @@ public class Config {
 
     public static class ConfigFactory {
         public static Config createConfig(Path path, String value) {
-            return Config.builder().application(path.getParent().getFileName().toString())
-                    .env(path.getParent().getParent().getFileName().toString())
+            if (path == null) {
+                return null;
+            }
+            Path application = path.getParent();
+            if (application == null) {
+                return null;
+            }
+            Path env = application.getParent();
+            if (env == null) {
+                return null;
+            }
+            return Config.builder().application(application.getFileName().toString())
+                    .env(env.getFileName().toString())
                     .name(path.getFileName().toString())
                     .value(value).build();
         }
