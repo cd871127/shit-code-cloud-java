@@ -1,0 +1,21 @@
+shitcode:
+  flyway:
+    sourceLocation: D:\dev\code\shit-code-cloud-java\biz-template\src\main\resources\db
+    targetLocation: ${spring.flyway.locations.[0]}
+    script-suffix: .sql
+    scripts:
+      #key需要和文件名一致
+      0-schema:
+        #name是输出的文件的名字
+        name: schema
+        version: 0
+        startDate: 2020-02-20
+        endDate: 2020-03-07
+      1-date:
+        name: date_table
+        version: 1
+      2-multi:
+        name: multi_table
+        startDate: 2020-02-20
+        endDate: 2020-03-07
+        version: 2

@@ -4,13 +4,27 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    #    include: consul,redis
+    include: consul,datasource,flyway
     active: dev
   cloud:
     consul:
+      host: localhost
+      port: 8500
       config:
         format: FILES
-        prefix: config/${spring.profiles.active}
+        prefix: ${spring.profiles.active}
         watch:
           enabled: true
-          delay: 1000
+          delay: 1
+
+logging:
+  config: classpath:config/logback-spring.xml
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+    health:
+      show-details: always
+server:
+  port: 8800

@@ -1,4 +1,4 @@
-package com.shit_code.cloud.consul;
+package com.shit_code.cloud.consul.config.configuration;
 
 /**
  * @author Anthony Chen

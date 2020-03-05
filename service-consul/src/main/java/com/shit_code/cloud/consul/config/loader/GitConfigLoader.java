@@ -1,6 +1,7 @@
 package com.shit_code.cloud.consul.config.loader;
 
-import com.shit_code.cloud.consul.config.Config;
+
+import com.shit_code.cloud.consul.config.configuration.Config;
 
 import java.util.Collections;
 import java.util.List;

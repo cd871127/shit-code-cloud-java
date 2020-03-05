@@ -1,4 +1,4 @@
-package com.shit_code.cloud.consul.config;
+package com.shit_code.cloud.consul.config.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.shit_code.cloud.consul.Constants.CONFIG_PREFIX;
+import static com.shit_code.cloud.consul.config.configuration.Constants.CONFIG_PREFIX;
+
 
 /**
  * @author Anthony Chen
@@ -23,18 +24,22 @@ public class ConfigProperties {
 
     private GitConfig gitConfig;
 
+    private String env;
+
     @Data
     public static class LocalConfig {
-        String path;
+        private String path;
 
-        List<String> suffix;
+        private List<String> suffix;
     }
 
     @Data
     public static class DatabaseConfig {
+
     }
 
     @Data
     public static class GitConfig {
+
     }
 }

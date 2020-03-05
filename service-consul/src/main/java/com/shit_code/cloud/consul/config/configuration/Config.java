@@ -1,4 +1,4 @@
-package com.shit_code.cloud.consul.config;
+package com.shit_code.cloud.consul.config.configuration;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.shit_code.cloud.lib.springboot.log.LogAutoConfiguration,\
   com.shit_code.cloud.lib.springboot.database.mybatis.MybatisAutoConfiguration,\
-  com.shit_code.cloud.lib.springboot.redis.RedisAutoConfiguration,\
+  com.shit_code.cloud.lib.springboot.redis.ShitCodeRedisAutoConfiguration,\
   com.shit_code.cloud.lib.springboot.database.sql.SqlScriptAutoConfiguration

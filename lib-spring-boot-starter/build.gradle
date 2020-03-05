@@ -4,9 +4,6 @@ dependencies {
     compileOnly group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
     annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-
-//    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-//    compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: springBootVersion
-//    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: springBootVersion
 }

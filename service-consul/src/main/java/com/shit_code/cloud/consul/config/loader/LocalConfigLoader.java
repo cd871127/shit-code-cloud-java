@@ -1,7 +1,7 @@
 package com.shit_code.cloud.consul.config.loader;
 
-import com.shit_code.cloud.consul.config.Config;
-import com.shit_code.cloud.consul.config.ConfigProperties;
+import com.shit_code.cloud.consul.config.configuration.Config;
+import com.shit_code.cloud.consul.config.configuration.ConfigProperties;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class LocalConfigLoader implements ConfigLoader {
 
     private ConfigProperties.LocalConfig localConfig;
-
 
     /**
      * 加载配置
