@@ -76,7 +76,7 @@ public class LocalConfigLoader implements ConfigLoader {
                 if (pathMatcher.matches(file)) {
                     String configValue = Files.lines(file).collect(Collectors.joining("\n"));
                     if (StringUtils.isNotEmpty(configValue)) {
-                        configContents.add(new Config(configPath.relativize(file).toString().replaceAll("\\\\", "/"), configValue));
+                        configContents.add(Config.ConfigFactory.createConfig(file, configValue));
                     } else {
                         log.warn("配置文件{},读取失败", file);
                     }

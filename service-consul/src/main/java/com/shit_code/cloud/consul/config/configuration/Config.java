@@ -1,8 +1,11 @@
 package com.shit_code.cloud.consul.config.configuration;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -11,13 +14,9 @@ import java.util.Objects;
  **/
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Config {
-
-    public Config(String key, String value) {
-        this();
-        this.key = key;
-        this.value = value;
-    }
 
     /**
      * 配置内容
@@ -25,10 +24,23 @@ public class Config {
     private String value;
 
     /**
-     * consul路径
+     * 配置应用
      */
-    private String key;
+    private String application;
 
+    /**
+     * 配置名称
+     */
+    private String name;
+
+    /**
+     * 配置环境
+     */
+    private String env;
+
+    public String getKey() {
+        return env + "/" + application + "/" + name;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -39,11 +51,20 @@ public class Config {
             return false;
         }
         Config that = (Config) o;
-        return key.equals(that.key);
+        return getKey().equals(that.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        return Objects.hash(getKey());
+    }
+
+    public static class ConfigFactory {
+        public static Config createConfig(Path path, String value) {
+            return Config.builder().application(path.getParent().getFileName().toString())
+                    .env(path.getParent().getParent().getFileName().toString())
+                    .name(path.getFileName().toString())
+                    .value(value).build();
+        }
     }
 }
