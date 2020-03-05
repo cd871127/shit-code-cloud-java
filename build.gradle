@@ -20,7 +20,6 @@ allprojects {
     }
 }
 
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
@@ -36,7 +35,6 @@ subprojects {
             mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
         }
     }
-
 
     dependencies {
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion

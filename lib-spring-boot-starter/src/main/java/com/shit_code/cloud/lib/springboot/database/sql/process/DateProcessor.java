@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  **/
 public class DateProcessor extends AbstractProcessor {
 
-    private DecimalFormat format=new DecimalFormat("00");
+    private DecimalFormat format = new DecimalFormat("00");
 
     @Override
     protected void doProcess(SqlScript sqlScript) {
@@ -27,6 +27,7 @@ public class DateProcessor extends AbstractProcessor {
         sqlScript.setSqlList(
                 Stream.generate(new Supplier<LocalDate>() {
                     private int i = 0;
+
                     @Override
                     public LocalDate get() {
                         return startDate.plusDays(i++);

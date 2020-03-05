@@ -4,8 +4,6 @@ import com.shit_code.cloud.lib.springboot.database.sharding.strategy.ShardingStr
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 /**
  * 分库分表信息
  *

@@ -8,9 +8,11 @@ create table IF NOT EXISTS shirodb.subject_info
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-insert into shirodb.subject_info(version, valid,create_time,update_time) VALUE (0,0,now(),now()),(1,1,now(),now());
+insert into shirodb.subject_info(version, valid, create_time, update_time) VALUE (0, 0, now(), now()), (1, 1, now(), now());
 
-update shirodb.subject_info set valid=1 where id=1;
+update shirodb.subject_info
+set valid=1
+where id = 1;
 # alter table TOPIC_INFO
 #     add constraint UK_TOPIC_INFO unique (TOPIC_URL);
 #
