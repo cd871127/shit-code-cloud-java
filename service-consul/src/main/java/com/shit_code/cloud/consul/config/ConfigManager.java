@@ -3,10 +3,12 @@ package com.shit_code.cloud.consul.config;
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.QueryParams;
 import com.ecwid.consul.v1.Response;
+import com.ecwid.consul.v1.kv.model.GetValue;
 import com.ecwid.consul.v1.kv.model.PutParams;
 import com.shit_code.cloud.consul.config.configuration.Config;
 import com.shit_code.cloud.consul.config.configuration.ConfigProperties;
 import com.shit_code.cloud.consul.config.loader.ConfigLoader;
+import com.shit_code.cloud.consul.config.writer.ConfigWriter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +33,11 @@ public class ConfigManager {
 
     private final List<ConfigLoader> configLoaders;
 
-    public ConfigManager(List<ConfigLoader> configLoaders) {
+    private final List<ConfigWriter> configWriters;
+
+    public ConfigManager(List<ConfigLoader> configLoaders, List<ConfigWriter> configWriters) {
         this.configLoaders = configLoaders;
+        this.configWriters = configWriters;
     }
 
     /**
@@ -42,7 +47,11 @@ public class ConfigManager {
      */
     public void reloadConfig() {
         cleanConfig();
-        pushConfig(false);
+        pushConfig();
+    }
+
+    public void pushConfig() {
+        pushConfig(true);
     }
 
     /**
@@ -73,14 +82,27 @@ public class ConfigManager {
         );
     }
 
+    /**
+     * 清空配置
+     */
     public void cleanConfig() {
         String keyPrefix = getKeyPrefix();
-        String separator = null;
         String token = null;
         QueryParams queryParams = null;
         consulClient.deleteKVValues(keyPrefix, token, queryParams);
-//        Response<List<String>> consulResponse = consulClient.getKVKeysOnly(keyPrefix, separator, token, queryParams);
-//        consulResponse.getValue().parallelStream().forEach(key -> consulClient.deleteKVValue(key, token, queryParams));
+    }
+
+    /**
+     * 回写配置
+     */
+    public void writeBack() {
+        String token = null;
+        QueryParams queryParams = null;
+        Response<List<GetValue>> kvs = consulClient.getKVValues(getKeyPrefix(), token, queryParams);
+        if (kvs == null || CollectionUtils.isEmpty(kvs.getValue())) {
+            return;
+        }
+        configWriters.parallelStream().forEach(configWriter -> configWriter.write(kvs.getValue()));
     }
 
     private String getKeyPrefix() {

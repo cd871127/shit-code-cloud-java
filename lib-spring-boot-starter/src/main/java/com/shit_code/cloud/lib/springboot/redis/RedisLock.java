@@ -1,7 +1,7 @@
 package com.shit_code.cloud.lib.springboot.redis;
 
 
-import com.shit_code.cloud.lib.springboot.common.ShitLock;
+import com.shit_code.cloud.lib.core.lock.ShitCodeLock;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author Anthony Chen
  * @date 2020/3/3
  **/
-public class RedisLock implements ShitLock {
+public class RedisLock implements ShitCodeLock {
 
     public RedisLock(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -27,25 +27,14 @@ public class RedisLock implements ShitLock {
     private DefaultRedisScript<Boolean> unlockScript;
 
     @Override
-    public boolean tryLock(String lockName, String lockOwner, long expiration, long timeout) {
-        long start = System.currentTimeMillis();
-        boolean lockResult;
-        do {
-            lockResult = lock(lockName, lockOwner, expiration);
-        } while (!lockResult && System.currentTimeMillis() - start <= timeout);
-        return lockResult;
-    }
-
-
-    @Override
-    public boolean lock(String lockName, String lockOwner, long expiration) {
+    public boolean lock(String lockName, String lockValue, long expiration) {
         try {
             BoundValueOperations<String, String> redis = redisTemplate.boundValueOps(lockName(lockName));
             Boolean result;
             if (expiration != 0) {
-                result = redis.setIfAbsent(lockOwner, expiration, TimeUnit.MILLISECONDS);
+                result = redis.setIfAbsent(lockValue, expiration, TimeUnit.MILLISECONDS);
             } else {
-                result = redis.setIfAbsent(lockOwner);
+                result = redis.setIfAbsent(lockValue);
             }
             return result == null ? false : result;
         } catch (Exception e) {
@@ -55,9 +44,9 @@ public class RedisLock implements ShitLock {
     }
 
     @Override
-    public boolean unlock(String lockName, String lockOwner) {
+    public boolean unlock(String lockName, String lockValue) {
         try {
-            Boolean result = redisTemplate.execute(unlockScript, Collections.singletonList(lockName(lockName)), lockOwner);
+            Boolean result = redisTemplate.execute(unlockScript, Collections.singletonList(lockName(lockName)), lockValue);
             return result == null ? false : result;
         } catch (Exception e) {
             e.printStackTrace();

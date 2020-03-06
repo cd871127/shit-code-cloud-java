@@ -1,6 +1,7 @@
 package com.shit_code.cloud.consul.config;
 
 import com.shit_code.cloud.consul.Application;
+import com.shit_code.cloud.lib.springboot.consul.ConsulLock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,9 +15,14 @@ public class ConfigManagerTest {
     @Resource
     private ConfigManager configManager;
 
+    @Resource
+    private ConsulLock consulLock;
+
     @Test
     public void test1() {
         System.out.println(1);
+        boolean test = consulLock.tryLock("test", "1232", 3,3000);
+        System.out.println(test);
     }
 
     @Test
@@ -32,5 +38,11 @@ public class ConfigManagerTest {
     @Test
     public void cleanConfig() {
         configManager.cleanConfig();
+    }
+
+
+    @Test
+    public void write() {
+        configManager.writeBack();
     }
 }

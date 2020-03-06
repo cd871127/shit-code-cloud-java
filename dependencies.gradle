@@ -23,6 +23,7 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
         annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
         implementation group: 'com.shit_code.cloud', name: 'lib-spring-boot-starter', version: '0.0.1'
+        implementation group: 'com.shit_code.cloud', name: 'lib-core', version: '0.0.1'
     }
 }
 
