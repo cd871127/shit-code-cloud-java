@@ -12,6 +12,10 @@ spring:
     name: service-consul
   profiles:
     active: dev
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
 logging:
   config: classpath:logback-spring.xml
   file:
