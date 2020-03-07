@@ -8,9 +8,8 @@ import com.shit_code.cloud.lib.core.exception.ShitCodeException;
  **/
 public abstract class AbstractReentrantLock<T extends ReentrantLockInfo> implements ShitCodeLock {
 
-
     @Override
-    public boolean lock(String lockName, String lockValue, long expiration) {
+    public boolean lock(String lockName, long expiration) {
         T lockInfo = getLockInfo(lockName);
         if (lockInfo != null && renew(lockInfo)) {
             //重入
@@ -18,7 +17,7 @@ public abstract class AbstractReentrantLock<T extends ReentrantLockInfo> impleme
             return true;
         } else if (lockInfo == null) {
             //第一次进入
-            lockInfo = createLockInfo(lockName, lockValue, expiration);
+            lockInfo = createLockInfo(lockName, expiration);
             if (acquire(lockInfo)) {
                 lockInfo.add();
                 return true;
@@ -28,9 +27,11 @@ public abstract class AbstractReentrantLock<T extends ReentrantLockInfo> impleme
     }
 
     @Override
-    public boolean unlock(String lockName, String lockValue) {
+    public boolean unlock(String lockName) {
         T lockInfo = getLockInfo(lockName);
-        assert lockInfo != null;
+        if (lockInfo == null) {
+            throw new ShitCodeException("Didn't have lock: " + lockName);
+        }
         if (lockInfo.count() > 1) {
             lockInfo.minus();
             return true;
@@ -45,11 +46,10 @@ public abstract class AbstractReentrantLock<T extends ReentrantLockInfo> impleme
      * 创建新的lockInfo
      *
      * @param lockName
-     * @param lockValue
      * @param expiration
      * @return
      */
-    protected abstract T createLockInfo(String lockName, String lockValue, long expiration);
+    protected abstract T createLockInfo(String lockName, long expiration);
 
     /**
      * 从已有的lockinfo中获取

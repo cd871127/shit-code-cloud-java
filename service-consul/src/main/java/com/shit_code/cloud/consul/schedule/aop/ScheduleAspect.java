@@ -30,10 +30,8 @@ public class ScheduleAspect {
     public Object around(ProceedingJoinPoint proceedingJoinPoint) {
         Object res = null;
         String lockName = proceedingJoinPoint.getSignature().getDeclaringTypeName() + "." + proceedingJoinPoint.getSignature().getName();
-        String lockValue = UUID.randomUUID().toString();
-        log.debug("Lock value: {}", lockValue);
         try {
-            if (consulLock.lock(lockName, lockValue)) {
+            if (consulLock.lock(lockName)) {
                 log.debug("Get lock: {}", lockName);
                 res = proceedingJoinPoint.proceed();
             } else {
@@ -42,7 +40,7 @@ public class ScheduleAspect {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         } finally {
-            consulLock.unlock(lockName, lockValue);
+            consulLock.unlock(lockName);
             log.debug("Release lock: {}", lockName);
         }
         return res;

@@ -1,13 +1,16 @@
 package com.shit_code.cloud.lib.springboot.redis;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+
+import javax.annotation.Resource;
 
 /**
  * @author Anthony Chen
@@ -15,10 +18,23 @@ import org.springframework.data.redis.core.RedisTemplate;
  **/
 @Slf4j
 @Configuration
-@ConditionalOnBean({RedisTemplate.class})
 @EnableConfigurationProperties(RedisProperties.class)
-@Import({RedisTemplate.class})
 public class ShitCodeRedisAutoConfiguration {
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+
+
+    @Bean
+    public RedisLock redisLock() {
+        return new RedisLock(stringRedisTemplate);
+    }
+
+    @Bean
+    @ConditionalOnClass({GenericJackson2JsonRedisSerializer.class, RedisSerializer.class})
+    public RedisSerializer<Object> defaultSerializer() {
+        log.info("Init jsonSerializer for redis");
+        return new GenericJackson2JsonRedisSerializer();
+    }
 //    /**
 //     * 用json的序列化器替换掉默认的session序列化器
 //     *
@@ -30,6 +46,7 @@ public class ShitCodeRedisAutoConfiguration {
 //        log.info("Init jsonSerializer for session");
 //        return new GenericJackson2JsonRedisSerializer();
 //    }
+
 //
 //    @Bean
 //    public RedisTemplate<Object, Object> redisTemplate(
@@ -40,10 +57,5 @@ public class ShitCodeRedisAutoConfiguration {
 //        return template;
 //    }
 
-    @Bean
-
-    public RedisLock redisLock(RedisTemplate<String, String> redisTemplate) {
-        return new RedisLock(redisTemplate);
-    }
 
 }

@@ -2,10 +2,11 @@ package com.shit_code.cloud.lib.springboot.consul;
 
 
 import com.ecwid.consul.v1.ConsulClient;
+import com.ecwid.consul.v1.kv.model.GetValue;
 import com.ecwid.consul.v1.kv.model.PutParams;
 import com.ecwid.consul.v1.session.model.NewSession;
 import com.ecwid.consul.v1.session.model.Session;
-import com.shit_code.cloud.lib.core.lock.AbstractReentrantLock;
+import com.shit_code.cloud.lib.springboot.common.AbstractSpringReentrantLock;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ import java.util.Map;
  **/
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConsulLock extends AbstractReentrantLock<ConsulLockInfo> {
+public class ConsulLock extends AbstractSpringReentrantLock<ConsulLockInfo> {
 
     private ConsulClient consulClient;
 
@@ -44,15 +45,23 @@ public class ConsulLock extends AbstractReentrantLock<ConsulLockInfo> {
     @Override
     protected boolean renew(ConsulLockInfo consulLockInfo) {
         Session session = consulClient.renewSession(consulLockInfo.getSessionId(), null).getValue();
-        return consulLockInfo.getSessionId().equals(session.getId());
+        if (consulLockInfo.getSessionId().equals(session.getId())) {
+            return acquire(consulLockInfo);
+        }
+        return false;
     }
 
     @Override
     protected boolean acquire(ConsulLockInfo consulLockInfo) {
         PutParams putParams = new PutParams();
         putParams.setAcquireSession(consulLockInfo.getSessionId());
-        return consulClient.setKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName(),
-                consulLockInfo.getLockValue(), putParams).getValue();
+        //判断value是否相等
+        GetValue getValue = consulClient.getKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName()).getValue();
+        if (getValue == null || consulLockInfo.getLockValue().equals(getValue.getDecodedValue())) {
+            return consulClient.setKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName(),
+                    consulLockInfo.getLockValue(), putParams).getValue();
+        }
+        return false;
     }
 
     @Override
