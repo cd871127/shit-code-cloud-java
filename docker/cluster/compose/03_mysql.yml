@@ -1,0 +1,41 @@
+version: '3.7'
+
+#mysql集群
+services:
+  mysql_master:
+    &mysql
+    container_name: mysql_master
+    image: ${MYSQL_IMAGE}
+    hostname: mysql_master.shit-code.com
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.21
+    environment:
+      #      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    volumes:
+      - ${DOCKER_CONFIG}/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ${DOCKER_CONFIG}/mysql/master.cnf:/etc/mysql/conf.d/master.cnf
+      - type: bind
+        source: ${DOCKER_VOLUME}/mysql/master
+        target: /var/lib/mysql
+  mysql_slave:
+    <<: *mysql
+    container_name: mysql_slave
+    hostname: mysql_slave.shit-code.com
+    depends_on:
+      - mysql_master
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.22
+    volumes:
+      - ${DOCKER_CONFIG}/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ${DOCKER_CONFIG}/mysql/slave.cnf:/etc/mysql/conf.d/slave.cnf
+      - type: bind
+        source: ${DOCKER_VOLUME}/mysql/slave
+        target: /var/lib/mysql
+
+#  eithi9ram2Saeji5Nai7miShohzop2Uc
+#  nav9ahdong5NohNgoopooSh4eideijoo
+#  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourPassword';
+#  CREATE USER 'username'@'host' IDENTIFIED WITH mysql_native_password BY 'password';
