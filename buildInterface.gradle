@@ -18,6 +18,7 @@ task buildSevice(type: Jar, dependsOn: compileSevice, description: '构建接口
     archiveAppendix = 'service'
     destinationDirectory = jar.destinationDirectory
 }
+
 publishing {
     publications {
         serviceJar(MavenPublication) {

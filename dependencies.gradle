@@ -5,6 +5,7 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
         rootSpec.exclude("**/config/")
     }
     apply from: "${project.rootDir}/buildInterface.gradle"
+    apply from: "${project.rootDir}/docker.gradle"
     //打包自动推送lib包到本地仓库
     compileJava.dependsOn(":lib-spring-boot-starter:publishToMavenLocal")
     compileJava.dependsOn(":lib-core:publishToMavenLocal")

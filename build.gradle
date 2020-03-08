@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath group: "com.liferay", name: "com.liferay.gradle.plugins.app.docker", version: dockerVersion
     }
 }
 

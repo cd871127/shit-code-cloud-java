@@ -1,0 +1,22 @@
+apply plugin: "com.liferay.app.docker"
+appDocker {
+    imageName(project.name)
+    imageTags(project.version)
+    imageUser(project.group)
+    inputDir()
+}
+
+//
+//task dockerFile {
+//    doLast {
+//        def dockerFileTemplate = """
+//test1
+//"""
+//        def file = new File(project.buildDir.toString() + "/docker")
+//        file.write(dockerFileTemplate)
+//    }
+//
+//}
+//
+//prepareAppDockerImageInputDir.dependsOn(dockerFile)
+prepareAppDockerImageInputDir.from(new File(project.buildDir.toString()))
