@@ -35,3 +35,20 @@ build
 .idea/
 
 
+# docker data
+docker/cluster/data/consul/node1/*
+docker/cluster/data/consul/node2/*
+docker/cluster/data/consul/node3/*
+
+docker/cluster/data/mysql/master/*
+docker/cluster/data/mysql/slave/*
+
+docker/cluster/data/redis/node1/*
+docker/cluster/data/redis/node2/*
+docker/cluster/data/redis/node3/*
+docker/cluster/data/redis/node4/*
+docker/cluster/data/redis/node5/*
+docker/cluster/data/redis/node6/*
+
+
+
