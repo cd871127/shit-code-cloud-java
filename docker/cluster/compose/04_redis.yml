@@ -10,90 +10,59 @@ services:
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.31
-    command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+    command: ["/usr/local/etc/redis/redis.conf"]
     volumes:
-#      - type: volume
-#        source: ${DOCKER_VOLUME}/redis/node1
-#        target: /data
       - ${DOCKER_VOLUME}/redis/node1/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
   redis_node_2:
     <<: *redis
     container_name: redis_node_2
     hostname: redis_node_2.shit-code.com
-#    depends_on:
-#      - redis_node_1
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.32
     volumes:
-#      - type: volume
-#        source: ${DOCKER_VOLUME}/redis/node2
-#        target: /data
       - ${DOCKER_VOLUME}/redis/node2/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
   redis_node_3:
     <<: *redis
     container_name: redis_node_3
     hostname: redis_node_3.shit-code.com
-#    depends_on:
-#      - redis_node_2
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.33
     volumes:
-#      - type: volume
-#        source: ${DOCKER_VOLUME}/redis/node3
-#        target: /data
       - ${DOCKER_VOLUME}/redis/node3/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
   redis_node_4:
     <<: *redis
     container_name: redis_node_4
     hostname: redis_node_4.shit-code.com
-#    depends_on:
-#      - redis_node_3
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.34
     volumes:
-#      - type: volume
-#        source: ${DOCKER_VOLUME}/redis/node4
-#        target: /data
       - ${DOCKER_VOLUME}/redis/node4/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
   redis_node_5:
     <<: *redis
     container_name: redis_node_5
     hostname: redis_node_5.shit-code.com
-    #    depends_on:
-    #      - redis_node_3
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.35
     volumes:
-      #      - type: volume
-      #        source: ${DOCKER_VOLUME}/redis/node4
-      #        target: /data
       - ${DOCKER_VOLUME}/redis/node5/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
   redis_node_6:
-#    depends_on:
-#      - redis_node_5
     <<: *redis
     container_name: redis_node_6
     hostname: redis_node_6.shit-code.com
     command:
-      - "redis-server"
-      - "/usr/local/etc/redis/redis.conf"
-#      - "echo yes|redis-cli --cluster create 172.28.0.31:6379 172.28.0.32:6379 172.28.0.33:6379 172.28.0.34:6379 172.28.0.35:6379 172.28.0.36:6379 --cluster-replicas 1"
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.36
     volumes:
-#      - type: volume
-#        source: ${DOCKER_VOLUME}/redis/node6
-#        target: /data
       - ${DOCKER_VOLUME}/redis/node6/data:/data
       - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
 

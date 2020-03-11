@@ -10,13 +10,9 @@ services:
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.11
-    command: ["consul", "agent", "-server", "-data-dir", "/consul/data","-config-dir", "/consul/config","-ui"]
+    command: ["agent", "-data-dir", "/consul/data", "-config-dir", "/consul/config", "-ui"]
     volumes:
-#      - type: bind
-#        source: ${DOCKER_VOLUME}/consul/node1
-#        target: /consul/data
-#      - ${DOCKER_VOLUME}/consul/node1/data:/consul/data
-      - ${DOCKER_VOLUME}/consul/node1/data:/consul/data
+      - ${DOCKER_VOLUME}/consul/node1:/consul/data
       - ${DOCKER_CONFIG}/consul/config.json:/consul/config/config.json
       - ${DOCKER_CONFIG}/consul/node1.json:/consul/config/node1.json
   consul_node_2:
@@ -27,10 +23,7 @@ services:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.12
     volumes:
-#      - type: bind
-#        source: ${DOCKER_VOLUME}/consul/node2
-#        target: /consul/data
-      - ${DOCKER_VOLUME}/consul/node2/data:/consul/data
+      - ${DOCKER_VOLUME}/consul/node2:/consul/data
       - ${DOCKER_CONFIG}/consul/config.json:/consul/config/config.json
       - ${DOCKER_CONFIG}/consul/node2.json:/consul/config/node2.json
   consul_node_3:
@@ -41,9 +34,6 @@ services:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.13
     volumes:
-#      - type: bind
-#        source: ${DOCKER_VOLUME}/consul/node3
-#        target: /consul/data
-      - ${DOCKER_VOLUME}/consul/node3/data:/consul/data
+      - ${DOCKER_VOLUME}/consul/node3:/consul/data
       - ${DOCKER_CONFIG}/consul/config.json:/consul/config/config.json
       - ${DOCKER_CONFIG}/consul/node3.json:/consul/config/node3.json
