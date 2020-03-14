@@ -1,0 +1,75 @@
+version: '3.7'
+
+#redis集群配置
+services:
+  redis_node_1:
+    &redis
+    container_name: redis_node_1
+    image: ${REDIS_IMAGE}
+    hostname: redis_node_1
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.31
+    command: ["/usr/local/etc/redis/redis.conf"]
+    extra_hosts:
+      - redis_node_1:${IP_ADDR_PREFIX}.31
+      - redis_node_2:${IP_ADDR_PREFIX}.32
+      - redis_node_3:${IP_ADDR_PREFIX}.33
+      - redis_node_4:${IP_ADDR_PREFIX}.34
+      - redis_node_5:${IP_ADDR_PREFIX}.35
+      - redis_node_6:${IP_ADDR_PREFIX}.36
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node1:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  redis_node_2:
+    <<: *redis
+    container_name: redis_node_2
+    hostname: redis_node_2
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.32
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node2:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  redis_node_3:
+    <<: *redis
+    container_name: redis_node_3
+    hostname: redis_node_3
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.33
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node3:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  redis_node_4:
+    <<: *redis
+    container_name: redis_node_4
+    hostname: redis_node_4
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.34
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node4:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  redis_node_5:
+    <<: *redis
+    container_name: redis_node_5
+    hostname: redis_node_5
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.35
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node5:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  redis_node_6:
+    <<: *redis
+    container_name: redis_node_6
+    hostname: redis_node_6
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.36
+    volumes:
+      - ${DOCKER_VOLUME}/redis/node6:/data
+      - ${DOCKER_CONFIG}/redis/redis.conf:/usr/local/etc/redis/redis.conf
+
+#  redis-cli --cluster create 192.168.27.107:16379 192.168.27.107:16380 192.168.27.107:16381 192.168.27.107:16382 192.168.27.107:16383 192.168.27.107:16384 --cluster-replicas 1
