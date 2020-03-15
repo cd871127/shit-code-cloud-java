@@ -18,7 +18,7 @@ public class LocalConfigLoaderTest {
         ConfigProperties.LocalConfig localConfig = new ConfigProperties.LocalConfig();
         localConfig.setPath("D:\\dev\\code\\shit-code-cloud-java\\app-config");
         localConfig.setSuffix(Collections.singletonList("yml"));
-        ConfigProperties configProperties=new ConfigProperties();
+        ConfigProperties configProperties = new ConfigProperties();
         configProperties.setLocal(localConfig);
         configProperties.setEnv("");
         LocalConfigLoader localConfigLoader = new LocalConfigLoader(configProperties);

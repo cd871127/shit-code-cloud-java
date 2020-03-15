@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 import javax.annotation.Resource;
-import java.util.UUID;
 
 /**
  * @author Anthony Chen

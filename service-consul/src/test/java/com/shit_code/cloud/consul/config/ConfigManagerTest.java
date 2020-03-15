@@ -45,7 +45,7 @@ public class ConfigManagerTest {
 
     @Test
     public void test3() {
-        Response<GetValue> c= consulClient.getKVValue("123");
+        Response<GetValue> c = consulClient.getKVValue("123");
         System.out.println(1);
 //        System.out.println(redisLock.unlock("test","123"));
     }
