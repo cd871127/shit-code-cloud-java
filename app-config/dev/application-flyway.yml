@@ -5,7 +5,8 @@ spring:
     #是否检查迁移脚本位置是否存在 默认true
     check-location: true
     #迁移脚本的位置 默认classpath:db/migration
-    locations: [${shitcode.flyway.targetLocation}]
+    locations:
+      - ${shitcode.flyway.targetLocation}
     #链接重试次数 默认0
     connect-retries: 0
     #设定需要flyway迁移的schema，大小写敏感 默认为连接默认的schema
