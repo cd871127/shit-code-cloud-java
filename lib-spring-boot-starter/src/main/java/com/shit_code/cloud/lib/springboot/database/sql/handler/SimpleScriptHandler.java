@@ -5,8 +5,7 @@ import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.flywaydb.core.api.FlywayException;
-import org.flywaydb.core.api.Location;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.File;
@@ -72,28 +71,30 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         if (!targetDir.exists() && !targetDir.mkdirs()) {
             throw new ShitCodeException();
         }
-        scripts.forEach(sqlScript -> {
-            AtomicInteger subVersion = new AtomicInteger(1);
-            sqlScript.getSqlList().forEach((script) -> {
-                String filePath = targetLocation + File.separator + flywayProperties.getSqlMigrationPrefix()
-                        + sqlScript.getVersion()
-                        + "." + subVersion.getAndAdd(1)
-                        + flywayProperties.getSqlMigrationSeparator()
-                        + sqlScript.getName()
-                        + sqlScriptProperties.getScriptSuffix();
-                try {
-                    Path file = Paths.get(filePath);
-                    if (!file.toFile().exists()) {
-                        log.debug("Write sql script: {}", filePath);
-                        Files.write(Paths.get(filePath), script.getBytes(StandardCharsets.UTF_8));
-                    } else {
-                        log.debug("File {} already exists", filePath);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+        scripts.parallelStream().filter(sqlScript ->
+                StringUtils.isEmpty(sqlScript.getName()) || StringUtils.isEmpty(sqlScript.getVersion()))
+                .forEach(sqlScript -> {
+                    AtomicInteger subVersion = new AtomicInteger(1);
+                    sqlScript.getSqlList().forEach((script) -> {
+                        String filePath = targetLocation + File.separator + flywayProperties.getSqlMigrationPrefix()
+                                + sqlScript.getVersion()
+                                + "." + subVersion.getAndAdd(1)
+                                + flywayProperties.getSqlMigrationSeparator()
+                                + sqlScript.getName()
+                                + sqlScriptProperties.getScriptSuffix();
+                        try {
+                            Path file = Paths.get(filePath);
+                            if (!file.toFile().exists()) {
+                                log.debug("Write sql script: {}", filePath);
+                                Files.write(Paths.get(filePath), script.getBytes(StandardCharsets.UTF_8));
+                            } else {
+                                log.debug("File {} already exists", filePath);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                });
 
     }
 
@@ -116,9 +117,9 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
     private String parseLocation(String path) {
         if (path.startsWith("classpath:")) {
             return getClass().getResource(path.replace("classpath:", "")).getPath();
-        } else if(path.startsWith("filesystem:")){
+        } else if (path.startsWith("filesystem:")) {
             return path.replace("filesystem:", "");
-        }else{
+        } else {
             return path;
         }
     }
@@ -129,9 +130,13 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
      * @return
      */
     private SqlScript createSqlScript(Path filePath) {
-        //用文件名获取配置
-        SqlScript sqlScript = sqlScriptProperties.getScripts()
-                .getOrDefault(filePath.getFileName().toString().replace(sqlScriptProperties.getScriptSuffix(), ""), null);
+        SqlScript sqlScript = null;
+        if (sqlScriptProperties.getScripts() != null) {
+            //用文件名获取配置
+            sqlScript = sqlScriptProperties.getScripts()
+                    .getOrDefault(filePath.getFileName().toString()
+                            .replace(sqlScriptProperties.getScriptSuffix(), ""), null);
+        }
         if (sqlScript == null) {
             sqlScript = new SqlScript();
         }

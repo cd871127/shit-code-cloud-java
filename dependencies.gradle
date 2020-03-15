@@ -28,14 +28,14 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
     }
 }
 
-String[] redisProjects = ['biz-template','service-shiro','service-consul']
+String[] redisProjects = ['biz-template', 'service-shiro', 'service-consul']
 configure(subprojects.findAll { redisProjects.contains(it.name) }) {
     dependencies {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
     }
 }
 
-String[] databaseProjects = ['biz-template','service-shiro']
+String[] databaseProjects = ['biz-template', 'service-shiro']
 configure(subprojects.findAll { databaseProjects.contains(it.name) }) {
     dependencies {
         implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
