@@ -101,7 +101,6 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
     protected List<SqlScript> doHandle(List<SqlScript> scripts) {
         scripts.forEach(sqlScript -> processorChain.go(sqlScript));
         return scripts;
-//        return scripts.parallelStream().peek(sqlScript -> processorChain.go(sqlScript)).collect(Collectors.toList());
     }
 
     @Override
@@ -115,15 +114,11 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
      * @return
      */
     private String parseLocation(String path) {
-        try {
-            Location location = new Location(path);
-            if (location.isClassPath()) {
-                String errInfo = "Target location not support classpath: " + path;
-                log.error(errInfo);
-                throw new IllegalArgumentException(errInfo);
-            }
-            return location.getPath();
-        } catch (FlywayException e) {
+        if (path.startsWith("classpath:")) {
+            return getClass().getResource(path.replace("classpath:", "")).getPath();
+        } else if(path.startsWith("filesystem:")){
+            return getClass().getResource(path.replace("filesystem:", "")).getPath();
+        }else{
             return path;
         }
     }
