@@ -2,7 +2,7 @@ String[] excludeProjects = ['lib-spring-boot-starter', 'lib-core']
 configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
     apply plugin: 'org.springframework.boot'
     bootJar {
-        rootSpec.exclude("**/config/")
+        rootSpec.exclude("**/config/*.yml")
     }
     apply from: "${project.rootDir}/buildInterface.gradle"
     apply from: "${project.rootDir}/docker.gradle"
