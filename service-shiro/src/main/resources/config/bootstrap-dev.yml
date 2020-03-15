@@ -1,6 +1,11 @@
+shitcode:
+  env:
+    consul:
+      host: localhost
+      port: 8500
+    server:
+      port: 8081
 spring:
   output:
     ansi:
       enabled: always
-
-

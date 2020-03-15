@@ -39,6 +39,6 @@ build
 docker/**/volume/*
 
 # flyway
-tmp_db/
+tmp_sql/
 
 

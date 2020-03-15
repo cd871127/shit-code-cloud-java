@@ -1,4 +1,4 @@
-create table IF NOT EXISTS shirodb.subject_info
+create table IF NOT EXISTS shiroDb.subject_info
 (
     id          INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     version     INT UNSIGNED             NOT NULL DEFAULT 0 COMMENT '乐观锁版本',
@@ -8,11 +8,7 @@ create table IF NOT EXISTS shirodb.subject_info
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-insert into shirodb.subject_info(version, valid, create_time, update_time) VALUE (0, 0, now(), now()), (1, 1, now(), now());
 
-update shirodb.subject_info
-set valid=1
-where id = 1;
 # alter table TOPIC_INFO
 #     add constraint UK_TOPIC_INFO unique (TOPIC_URL);
 #
