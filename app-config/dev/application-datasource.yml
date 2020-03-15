@@ -4,3 +4,11 @@ spring:
     password: ${shitcode.env.mysql.password}
     username: ${shitcode.env.mysql.username}
     url: jdbc:mysql://${shitcode.env.mysql.host}:${shitcode.env.mysql.port}?useUnicode=true&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
+shitcode:
+  env:
+    mysql:
+      host: localhost
+      port: 3306
+      username: root
+      password: 123456

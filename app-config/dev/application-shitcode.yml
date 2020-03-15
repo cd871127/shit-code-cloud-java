@@ -1,5 +1,0 @@
-shitcode:
-  flyway:
-    sourceLocation: D:\dev\code\shit-code-cloud-java\biz-template\src\main\resources\db
-    targetLocation: ${shitcode.env.flyway.locations.[0]}
-    script-suffix: .sql

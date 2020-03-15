@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    include: env,consul,datasource,flyway,redis,shitcode
+    include: consul,datasource,flyway,redis
     active: dev
   cloud:
     consul:
