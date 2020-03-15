@@ -117,7 +117,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         if (path.startsWith("classpath:")) {
             return getClass().getResource(path.replace("classpath:", "")).getPath();
         } else if(path.startsWith("filesystem:")){
-            return getClass().getResource(path.replace("filesystem:", "")).getPath();
+            return path.replace("filesystem:", "");
         }else{
             return path;
         }
