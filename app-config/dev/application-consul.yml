@@ -1,8 +1,8 @@
 spring:
   cloud:
     consul:
-      host: localhost
-      port: 8500
+      host: ${shitcode.env.consul.host}
+      port: ${shitcode.env.consul.port}
       discovery:
         tags: version=0.0.1,author=cd871127
         healthCheckPath: /actuator/health

@@ -8,8 +8,8 @@ spring:
     active: dev
   cloud:
     consul:
-      host: localhost
-      port: 8500
+      host: ${shitcode.env.consul.host}
+      port: ${shitcode.env.consul.port}
       config:
         format: FILES
         prefix: ${spring.profiles.active}
@@ -27,4 +27,4 @@ management:
     health:
       show-details: always
 server:
-  port: 8800
+  port: ${shitcode.env.server.port}
