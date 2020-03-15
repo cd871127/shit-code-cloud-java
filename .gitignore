@@ -38,6 +38,7 @@ build
 # docker volumes
 docker/**/volume/*
 
-
+# flyway
+tmp_db/
 
 

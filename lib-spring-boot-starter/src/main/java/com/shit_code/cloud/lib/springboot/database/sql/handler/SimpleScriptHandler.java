@@ -1,5 +1,6 @@
 package com.shit_code.cloud.lib.springboot.database.sql.handler;
 
+import com.shit_code.cloud.lib.core.exception.ShitCodeException;
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -67,6 +68,10 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
     @Override
     protected void to(List<SqlScript> scripts) {
         String targetLocation = parseLocation(sqlScriptProperties.getTargetLocation());
+        File targetDir = Paths.get(targetLocation).toFile();
+        if (!targetDir.exists() && !targetDir.mkdirs()) {
+            throw new ShitCodeException();
+        }
         scripts.forEach(sqlScript -> {
             AtomicInteger subVersion = new AtomicInteger(1);
             sqlScript.getSqlList().forEach((script) -> {

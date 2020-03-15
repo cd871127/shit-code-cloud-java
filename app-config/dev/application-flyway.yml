@@ -81,6 +81,6 @@ spring:
     #stream: false
 shitcode:
   flyway:
-    sourceLocation: D:\dev\code\shit-code-cloud-java\biz-template\src\main\resources\db
-    targetLocation: filesystem:D:\dev\code\shit-code-cloud-java\biz-template\src\main\resources\tmp_db
+    sourceLocation: db
+    targetLocation: filesystem:tmp_db
     script-suffix: .sql
