@@ -48,3 +48,10 @@ configure(subprojects.findAll { databaseProjects.contains(it.name) }) {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
     }
 }
+
+String[] rabbitmqProjects = ['biz-template']
+configure(subprojects.findAll { rabbitmqProjects.contains(it.name) }) {
+    dependencies {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
+    }
+}
