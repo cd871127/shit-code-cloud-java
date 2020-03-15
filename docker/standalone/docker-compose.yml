@@ -63,3 +63,12 @@ services:
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.41
+  zipkin:
+    container_name: zipkin
+    image: ${ZIPKIN_IMAGE}
+    hostname: zipkin
+    ports:
+    - 9411:9411
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.51

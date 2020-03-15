@@ -55,3 +55,10 @@ configure(subprojects.findAll { rabbitmqProjects.contains(it.name) }) {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
     }
 }
+
+String[] zipkinProjects = ['biz-template']
+configure(subprojects.findAll { zipkinProjects.contains(it.name) }) {
+    dependencies {
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
+    }
+}
