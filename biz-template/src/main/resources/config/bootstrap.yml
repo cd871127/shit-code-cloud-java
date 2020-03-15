@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    include: consul,datasource,flyway
+    include: env,consul,datasource,flyway,redis,shitcode
     active: dev
   cloud:
     consul:
@@ -12,7 +12,7 @@ spring:
       port: ${shitcode.env.consul.port}
       config:
         format: FILES
-        prefix: ${spring.profiles.active}
+        prefix: config/${spring.profiles.active}
         watch:
           enabled: true
           delay: 1
