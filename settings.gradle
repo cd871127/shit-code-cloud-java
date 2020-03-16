@@ -8,4 +8,5 @@ include 'service-shiro'
 include 'lib-spring-boot-starter'
 include 'lib-core'
 include 'service-flyway'
+include 'service-admin'
 

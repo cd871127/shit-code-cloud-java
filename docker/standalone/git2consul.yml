@@ -23,6 +23,6 @@ services:
     command: ['git2consul','-config','/etc/git2consul.json']
     networks:
       cluster-network:
-        ipv4_address: ${IP_ADDR_PREFIX}.100
+        ipv4_address: ${IP_ADDR_PREFIX}.101
     volumes:
       - ${DOCKER_CONFIG}/git2consul/new.json:/etc/git2consul.json

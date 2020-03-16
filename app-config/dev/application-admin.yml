@@ -1,0 +1,17 @@
+spring:
+  boot:
+    admin:
+      client:
+        url:
+          - http://localhost:8082
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

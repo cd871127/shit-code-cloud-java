@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    include: consul,datasource,flyway,redis,rabbitmq
+    include: consul,zipkin,admin,datasource,flyway,redis,rabbitmq
     active: dev
   cloud:
     consul:
@@ -20,12 +20,7 @@ spring:
 logging:
   config: classpath:config/logback-spring.xml
 
-management:
-  endpoint:
-    refresh:
-      enabled: true
-    health:
-      show-details: always
+
 server:
   port: ${shitcode.env.server.port}
 

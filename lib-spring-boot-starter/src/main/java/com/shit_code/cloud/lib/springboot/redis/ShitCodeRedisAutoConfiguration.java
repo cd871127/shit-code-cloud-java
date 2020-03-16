@@ -2,10 +2,12 @@ package com.shit_code.cloud.lib.springboot.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -18,11 +20,11 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Configuration
+@ConditionalOnClass(RedisOperations.class)
 @EnableConfigurationProperties(RedisProperties.class)
 public class ShitCodeRedisAutoConfiguration {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
 
     @Bean
     public RedisLock redisLock() {
