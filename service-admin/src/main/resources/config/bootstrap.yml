@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    include: consul,zipkin
+    include: consul,zipkin,admin
     active: dev
   cloud:
     consul:
@@ -24,11 +24,5 @@ spring:
 logging:
   config: classpath:config/logback-spring.xml
 
-management:
-  endpoint:
-    refresh:
-      enabled: true
-    health:
-      show-details: always
 server:
   port: ${shitcode.env.server.port}

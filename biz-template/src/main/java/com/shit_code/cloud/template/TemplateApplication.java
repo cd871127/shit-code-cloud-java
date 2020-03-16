@@ -2,6 +2,7 @@ package com.shit_code.cloud.template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  **/
 @SpringCloudApplication
 @EnableScheduling
+@EnableAsync
 public class TemplateApplication {
     public static void main(String[] args) {
         SpringApplication.run(TemplateApplication.class, args);

@@ -5,8 +5,12 @@ shitcode:
       port: 8500
     server:
       port: 8800
+    rabbitmq:
+      addresses: localhost
+      port: 5672
+      username: guest
+      password: guest
 spring:
   output:
     ansi:
       enabled: always
-

@@ -5,17 +5,40 @@
     <contextName>shit-code</contextName>
     <springProperty scope="context" name="LOG_PATH" source="logging.file.path"/>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
-    <!-- Console 输出设置 -->
-    <!--    %black(black)-%red(red)-%green(green)-%yellow(yellow)-%blue(blue)-%magenta(magenta)-%cyan(cyan)-%white(white)-%gray(gray)-%boldRed(boldRed)-%boldGreen(boldGreen)-%boldYellow(boldYellow)-%boldBlue(boldBlue)-%boldMagenta(boldMagenta)-%boldCyan(boldCyan)-%boldWhite(boldWhite)-->
-    <!--    <logger name="com.shit_code.cloud" level="DEBUG" additivity="false">-->
-    <!--        <appender-ref ref="CONSOLE"/>-->
-    <!--    </logger>-->
-    <!--<logger name="io.github.cd871127.hodgepodge.cloud.cipher.mapper" level="DEBUG">-->
-    <!--<appender-ref ref="CONSOLE"/>-->
-    <!--</logger>-->
+
+    <springProperty scope="context" name="RABBIT_HOST" source="spring.rabbitmq.addresses"/>
+    <springProperty scope="context" name="RABBIT_PORT" source="spring.rabbitmq.port"/>
+    <springProperty scope="context" name="RABBIT_USERNAME" source="spring.rabbitmq.username"/>
+    <springProperty scope="context" name="RABBIT_PASSWORD" source="spring.rabbitmq.password"/>
+
+
+    <appender name="RABBIT_APPENDER" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern>
+                <![CDATA[%d{yyyy-MM-dd HH:mm:ss} [%thread] [%class:%line] %-5level %logger - %msg%n ]]>
+            </pattern>
+        </layout>
+        <host>${RABBIT_HOST}</host>
+        <port>${RABBIT_PORT}</port>
+        <username>${RABBIT_USERNAME}</username>
+        <password>${RABBIT_PASSWORD}</password>
+
+        <declareExchange>true</declareExchange>
+        <exchangeType>fanout</exchangeType>
+        <exchangeName>shit_code.log.exchange</exchangeName>
+        <routingKeyPattern>log.${APP_NAME}</routingKeyPattern>
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>false</durable>
+        <deliveryMode>NON_PERSISTENT</deliveryMode>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="RABBIT_APPENDER"/>
+    </root>
     <springProfile name="dev">
         <property name="CONSOLE_LOG_PATTERN"
-                  value="%d{yyyy-MM-dd:HH:mm:ss.SSS} [%-15.15thread] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
+                  value="%d{yyyy-MM-dd:HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
