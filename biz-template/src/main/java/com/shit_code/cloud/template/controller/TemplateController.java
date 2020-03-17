@@ -2,6 +2,7 @@ package com.shit_code.cloud.template.controller;
 
 import com.shit_code.cloud.template.service.TemplateService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,9 @@ public class TemplateController {
 
     @Resource
     private TemplateService templateService;
+
+    @Value("${spring.cloud.client.ip-address}")
+    private String ip;
 
 
     @PostMapping("cache/{key}")
@@ -33,8 +37,9 @@ public class TemplateController {
         templateService.sendMessage(body);
         return "ok";
     }
+
     @GetMapping("test/thread")
-    String testThread()  {
+    String testThread() {
         log.info("controller traceId");
         Thread thread = new Thread(() -> log.info("thread traceId"));
         thread.start();
@@ -53,5 +58,10 @@ public class TemplateController {
         executor.execute(() -> log.info("execute thread traceId"));
 
         return "ok";
+    }
+
+    @GetMapping
+    String getIp() {
+        return ip;
     }
 }

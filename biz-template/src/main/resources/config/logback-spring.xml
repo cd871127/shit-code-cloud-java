@@ -23,6 +23,7 @@
                 "serviceName": "${APP_NAME:-}",
                 "traceId": "%X{X-B3-TraceId:-}",
                 "spanId": "%X{X-B3-SpanId:-}",
+                "logTime": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
                 "parentSpanId": "%X{X-B3-ParentSpanId:-}",
                 "pid": "${PID:-}",
                 "thread": "%thread",
@@ -54,7 +55,7 @@
     </root>
     <springProfile name="dev">
         <property name="CONSOLE_LOG_PATTERN"
-                  value="%ipAddr %d{yyyy-MM-dd:HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
+                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
