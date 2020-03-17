@@ -40,7 +40,7 @@
         <password>${RABBIT_PASSWORD}</password>
 
         <declareExchange>true</declareExchange>
-        <exchangeType>fanout</exchangeType>
+        <exchangeType>topic</exchangeType>
         <exchangeName>shit_code.log.exchange</exchangeName>
         <routingKeyPattern>log.${APP_NAME}</routingKeyPattern>
         <generateId>true</generateId>
