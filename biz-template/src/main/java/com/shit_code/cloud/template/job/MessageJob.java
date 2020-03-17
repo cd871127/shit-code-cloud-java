@@ -12,7 +12,7 @@ public class MessageJob {
     @Resource
     private TemplateService templateService;
 
-    @Scheduled(fixedRate = 60L * 1000L)
+    @Scheduled(fixedRate = 5L * 1000L)
     public void message() {
         templateService.sendMessage(LocalDateTime.now().toString());
     }
