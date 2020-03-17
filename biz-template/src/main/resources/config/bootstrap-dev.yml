@@ -10,6 +10,13 @@ shitcode:
       port: 5672
       username: guest
       password: guest
+    mysql:
+      host: localhost
+    redis:
+      host: localhost
+    zipkin:
+      host: localhost
+      port: 9411
 spring:
   output:
     ansi:

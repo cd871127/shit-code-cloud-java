@@ -9,4 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LogAutoConfiguration {
 
+//    @Bean
+//    ApplicationRunner applicationRunner() {
+//        return new IpAddressHandler();
+//    }
 }

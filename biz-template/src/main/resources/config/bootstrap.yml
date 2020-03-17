@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    include: consul,zipkin,admin,datasource,flyway,redis
+    include: consul,zipkin,admin,datasource,flyway,redis,rabbitmq
     active: dev
   cloud:
     consul:
@@ -16,12 +16,6 @@ spring:
         watch:
           enabled: true
           delay: 1
-  rabbitmq:
-    addresses: ${shitcode.env.rabbitmq.addresses}
-    port: ${shitcode.env.rabbitmq.port}
-    username: ${shitcode.env.rabbitmq.username}
-    password: ${shitcode.env.rabbitmq.password}
-
 
   zipkin:
     sender:

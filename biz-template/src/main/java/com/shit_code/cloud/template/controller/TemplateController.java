@@ -33,7 +33,6 @@ public class TemplateController {
         templateService.sendMessage(body);
         return "ok";
     }
-
     @GetMapping("test/thread")
     String testThread()  {
         log.info("controller traceId");

@@ -1,6 +1,6 @@
 spring:
   rabbitmq:
-    addresses: localhost
-    port: 5672
-    username: guest
-    password: guest
+    addresses: ${shitcode.env.rabbitmq.addresses}
+    port: ${shitcode.env.rabbitmq.port}
+    username: ${shitcode.env.rabbitmq.username}
+    password: ${shitcode.env.rabbitmq.password}

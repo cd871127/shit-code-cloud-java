@@ -1,6 +1,6 @@
 spring:
   redis:
-    host: localhost
+    host: ${shitcode.env.redis.host}
     port: 6379
 #    cluster:
 #      nodes:

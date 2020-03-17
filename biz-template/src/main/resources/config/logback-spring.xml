@@ -11,11 +11,27 @@
     <springProperty scope="context" name="RABBIT_USERNAME" source="spring.rabbitmq.username"/>
     <springProperty scope="context" name="RABBIT_PASSWORD" source="spring.rabbitmq.password"/>
 
-
+    <conversionRule conversionWord="ipAddr" converterClass="com.shit_code.cloud.lib.core.log.LogIpAddressConverter" />
     <appender name="RABBIT_APPENDER" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
         <layout>
+<!--            <pattern>-->
+<!--                <![CDATA[%d{yyyy-MM-dd HH:mm:ss} [%thread] [%class:%line] %-5level %logger - %msg%n ]]>-->
+<!--            </pattern>-->
             <pattern>
-                <![CDATA[%d{yyyy-MM-dd HH:mm:ss} [%thread] [%class:%line] %-5level %logger - %msg%n ]]>
+                {
+                "level": "%level",
+                "service": "${APP_NAME:-}",
+                "traceId": "%X{X-B3-TraceId:-}",
+                "spanId": "%X{X-B3-SpanId:-}",
+                "parentSpanId": "%X{X-B3-ParentSpanId:-}",
+                "pid": "${PID:-}",
+                "thread": "%thread",
+                "class": "%logger",
+                "method": "%M",
+                "line": "%L",
+                "ip": "%ipAddr"
+                "message": "%message",
+                }
             </pattern>
         </layout>
         <host>${RABBIT_HOST}</host>
@@ -38,7 +54,7 @@
     </root>
     <springProfile name="dev">
         <property name="CONSOLE_LOG_PATTERN"
-                  value="%d{yyyy-MM-dd:HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
+                  value="%ipAddr %d{yyyy-MM-dd:HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
