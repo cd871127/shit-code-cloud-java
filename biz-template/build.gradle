@@ -1,4 +1,5 @@
 version '0.0.1'
 dependencies {
+//    runtime group: 'org.springframework.cloud', name: 'spring-cloud-starter-vault-config'
 }
 

@@ -1,5 +1,6 @@
 package com.shit_code.cloud.template.controller;
 
+import com.shit_code.cloud.template.mapper.TestDAO;
 import com.shit_code.cloud.template.service.TemplateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +8,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.LongStream;
 
 @Slf4j
 @RestController
@@ -63,5 +67,55 @@ public class TemplateController {
     @GetMapping
     String getIp() {
         return ip;
+    }
+
+    @Resource
+    private TestDAO testDAO;
+
+    @GetMapping("insert/{num}")
+    String insert(@PathVariable("num") long num) throws InterruptedException, ExecutionException {
+        String result = "";
+        long start;
+        long end;
+
+//        start = System.currentTimeMillis();
+//        sequentialSum(num);
+//        end = System.currentTimeMillis();
+//        result += "串行流：" + (end - start) + "<br>";
+//        testDAO.delete();
+
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(8, 8,
+                60, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+        List<Future<Integer>> futures = new LinkedList<>();
+        start = System.currentTimeMillis();
+        for (long i = 0; i < num; ++i) {
+            final long j = i;
+            futures.add(threadPoolExecutor.submit(() -> testDAO.insert(j)));
+        }
+        for (Future<Integer> future : futures) {
+            future.get();
+        }
+        end = System.currentTimeMillis();
+        threadPoolExecutor.shutdown();
+        testDAO.delete();
+        result += "线程池：" + (end - start) + "<br>";
+
+        start = System.currentTimeMillis();
+        parallelSum(num);
+        end = System.currentTimeMillis();
+        result += "并行流：" + (end - start) + "<br>";
+        testDAO.delete();
+        return result;
+    }
+
+    public void sequentialSum(long n) {
+        LongStream.range(0, n).forEach((num) -> testDAO.insert(num));
+    }
+
+    public void parallelSum(long n) {
+        LongStream.range(0, n)
+                .parallel()
+                .forEach((num) -> testDAO.insert(num));
     }
 }

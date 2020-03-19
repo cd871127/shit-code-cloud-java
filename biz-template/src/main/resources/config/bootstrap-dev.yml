@@ -1,22 +1,24 @@
 shitcode:
   env:
     consul:
-      host: 192.168.27.106
+      host: localhost
       port: 8500
     server:
       port: 8800
     rabbitmq:
-      addresses: 192.168.27.106
+      addresses: localhost
       port: 5672
       username: guest
       password: guest
     mysql:
-      host: 192.168.27.106
+      host: localhost
     redis:
-      host: 192.168.27.106
+      host: localhost
     zipkin:
-      host: 192.168.27.106
+      host: localhost
       port: 9411
+    nginx:
+      host: localhost
 spring:
   output:
     ansi:

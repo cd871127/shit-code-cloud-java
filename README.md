@@ -34,3 +34,6 @@ docker run redis:last
 添加项目路径docker/cluster到虚拟机共享目录/docker/
 
 boot2docker 只有/var/lib/boot2docker/bootlocal.sh这个脚本能持久化
+
+业务监控
+https://prometheus.io/download/

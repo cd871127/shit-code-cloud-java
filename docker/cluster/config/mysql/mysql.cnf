@@ -16,10 +16,10 @@ init_connect='SET NAMES utf8mb4'
 lower_case_table_names = 1
 
 #最大连接数
-max_connections = 10
+max_connections = 100
 
 #最大错误连接数
-max_connect_errors = 20
+max_connect_errors = 200
 
 #TIMESTAMP如果没有显示声明NOT NULL，允许NULL值
 explicit_defaults_for_timestamp = true

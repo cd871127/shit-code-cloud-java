@@ -10,6 +10,17 @@ networks:
         - subnet: ${IP_ADDR_PREFIX}.0/16
 
 services:
+  nginx:
+    container_name: nginx
+    image: ${NGINX_IMAGE}
+    hostname: nginx
+    ports:
+      - 80:80
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.92
+    volumes:
+      - ${DOCKER_CONFIG}/logback/logback-spring.xml:/usr/share/nginx/html/logback-spring.xml
   consul:
     container_name: consul
     image: ${CONSUL_IMAGE}
@@ -68,7 +79,7 @@ services:
     image: ${ZIPKIN_IMAGE}
     hostname: zipkin
     ports:
-    - 9411:9411
+      - 9411:9411
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.51
