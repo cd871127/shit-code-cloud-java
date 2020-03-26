@@ -1,6 +1,6 @@
 version '0.0.1'
 dependencies {
-    runtime group: 'org.springframework.cloud', name: 'spring-cloud-starter-vault-config'
+    runtimeOnly group: 'org.springframework.cloud', name: 'spring-cloud-starter-vault-config'
     // https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
     implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.2'
 
