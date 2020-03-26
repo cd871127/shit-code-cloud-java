@@ -11,6 +11,7 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
     compileJava.dependsOn(":lib-core:publishToMavenLocal")
 //common dependencies
     dependencies {
+//        implementation group: 'com.google.code.gson', name: 'gson', version: gSonVersion
         implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: adminVersion
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
         implementation group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion

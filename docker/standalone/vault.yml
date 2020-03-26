@@ -14,4 +14,3 @@ services:
     networks:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.91
-

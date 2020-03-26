@@ -118,4 +118,15 @@ public class TemplateController {
                 .parallel()
                 .forEach((num) -> testDAO.insert(num));
     }
+
+
+    @GetMapping("pathtest/{num}/{string}")
+    String testpath(@PathVariable("num") int num, @PathVariable("string") String string) {
+        return num + "." + string;
+    }
+
+    @GetMapping("pathtest")
+    String testnopath(@RequestParam("num") int num, @RequestParam("string") String string) {
+        return num + "." + string;
+    }
 }

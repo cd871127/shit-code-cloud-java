@@ -18,12 +18,12 @@ public class DateProcessor extends AbstractProcessor {
 
     @Override
     protected void doProcess(SqlScript sqlScript) {
-        LocalDate startDate = sqlScript.getStartDate();
-        LocalDate tmp = sqlScript.getEndDate();
+        var startDate = sqlScript.getStartDate();
+        var tmp = sqlScript.getEndDate();
         if (tmp == null) {
             tmp = startDate.plusYears(3);
         }
-        final LocalDate endDate = tmp;
+        final var endDate = tmp;
         sqlScript.setSqlList(
                 Stream.generate(new Supplier<LocalDate>() {
                     private int i = 0;

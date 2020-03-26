@@ -15,9 +15,9 @@ public abstract class AbstractRangeReplaceProcessor extends AbstractProcessor {
 
     @Override
     protected void doProcess(SqlScript sqlScript) {
-        final int start = startIndex(sqlScript);
-        final int end = endIndex(sqlScript);
-        Format format = format();
+        final var start = startIndex(sqlScript);
+        final var end = endIndex(sqlScript);
+        var format = format();
         //TODO 并行
         sqlScript.setSqlList(sqlScript.getSqlList().stream().flatMap(
                 sql -> IntStream.range(start, end)

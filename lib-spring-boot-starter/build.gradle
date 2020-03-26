@@ -6,6 +6,8 @@ dependencies {
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
     compileOnly group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul'
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
     compileOnly group: 'com.shit_code.cloud', name: 'lib-core', version: '0.0.1'
     annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    compileOnly group: 'com.google.code.gson', name: 'gson', version: gSonVersion
 }

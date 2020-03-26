@@ -23,8 +23,8 @@ public abstract class AbstractSqlScriptHandler implements SqlScriptHandler {
 
     @Override
     public void handle() {
-        List<SqlScript> scripts = from();
-        List<SqlScript> result = doHandle(scripts);
+        var scripts = from();
+        var result = doHandle(scripts);
         to(result);
     }
 

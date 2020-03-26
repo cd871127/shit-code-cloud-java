@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<configuration scan="true" scanPeriod="10 seconds" debug="false">-->
 <included>
-<!--    <include url="http://https://raw.githubusercontent.com/cd871127/shit-code-cloud-java/master/biz-template/src/main/resources/config/logback-spring.xml"/>-->
-    <contextName>shit-code</contextName>
+
     <springProperty scope="context" name="LOG_PATH" source="logging.file.path"/>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
 
@@ -11,8 +9,9 @@
     <springProperty scope="context" name="RABBIT_PORT" source="spring.rabbitmq.port"/>
     <springProperty scope="context" name="RABBIT_USERNAME" source="spring.rabbitmq.username"/>
     <springProperty scope="context" name="RABBIT_PASSWORD" source="spring.rabbitmq.password"/>
+    <contextName>shit-code.${APP_NAME}</contextName>
 
-    <conversionRule conversionWord="ipAddr" converterClass="com.shit_code.cloud.lib.core.log.LogIpAddressConverter" />
+    <conversionRule conversionWord="ipAddr" converterClass="com.shit_code.cloud.lib.core.log.LogIpAddressConverter"/>
     <appender name="RABBIT_APPENDER" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
         <layout>
             <pattern>
@@ -48,27 +47,25 @@
         <deliveryMode>NON_PERSISTENT</deliveryMode>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="RABBIT_APPENDER"/>
-    </root>
     <springProfile name="dev">
         <property name="CONSOLE_LOG_PATTERN"
-                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) %logger - %msg%n"/>
+                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-15.15thread] [%X{X-B3-TraceId:-}] %highlight(%-5level) %-64.64(%logger{32}#%method:%line) - %msg%n"/>
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
                 <charset>utf8</charset>
             </encoder>
         </appender>
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-        </root>
         <logger name="org.apache.shiro" level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </logger>
         <logger name="com.shit_code.cloud.lib.springboot.database.sql" level="INFO">
             <appender-ref ref="CONSOLE"/>
         </logger>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="RABBIT_APPENDER"/>
+        </root>
     </springProfile>
 
     <springProfile name="prd">
@@ -161,13 +158,23 @@
             </filter>
         </appender>
 
-        <root level="INFO">
+        <appender name="ASYNC_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+            <queueSize>128</queueSize>
+            <discardingThreshold>5</discardingThreshold>
+            <includeCallerData>false</includeCallerData>
+            <maxFlushTime>300</maxFlushTime>
+            <neverBlock>false</neverBlock>
+
             <appender-ref ref="DEBUG_FILE"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="RABBIT_APPENDER"/>
+            <appender-ref ref="ASYNC_APPENDER"/>
         </root>
     </springProfile>
 
-<!--</configuration>-->
 </included>

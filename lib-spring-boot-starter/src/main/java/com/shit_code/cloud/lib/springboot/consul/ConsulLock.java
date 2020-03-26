@@ -29,7 +29,7 @@ public class ConsulLock extends AbstractSpringReentrantLock<ConsulLockInfo> {
 
     @Override
     protected ConsulLockInfo createLockInfo(String lockName, String lockValue, long expiration) {
-        String sessionId = createSession(lockName, expiration);
+        var sessionId = createSession(lockName, expiration);
         ConsulLockInfo consulLockInfo = new ConsulLockInfo().setLockName(lockName).setExpiration(expiration)
                 .setLockValue(lockValue).setSessionId(sessionId);
         threadMap.get().put(lockName, consulLockInfo);
@@ -44,7 +44,7 @@ public class ConsulLock extends AbstractSpringReentrantLock<ConsulLockInfo> {
 
     @Override
     protected boolean renew(ConsulLockInfo consulLockInfo) {
-        Session session = consulClient.renewSession(consulLockInfo.getSessionId(), null).getValue();
+        var session = consulClient.renewSession(consulLockInfo.getSessionId(), null).getValue();
         if (consulLockInfo.getSessionId().equals(session.getId())) {
             return acquire(consulLockInfo);
         }
@@ -53,10 +53,10 @@ public class ConsulLock extends AbstractSpringReentrantLock<ConsulLockInfo> {
 
     @Override
     protected boolean acquire(ConsulLockInfo consulLockInfo) {
-        PutParams putParams = new PutParams();
+        var putParams = new PutParams();
         putParams.setAcquireSession(consulLockInfo.getSessionId());
         //判断value是否相等
-        GetValue getValue = consulClient.getKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName()).getValue();
+        var getValue = consulClient.getKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName()).getValue();
         if (getValue == null || consulLockInfo.getLockValue().equals(getValue.getDecodedValue())) {
             return consulClient.setKVValue(CONSUL_LOCK_ROOT + consulLockInfo.getLockName(),
                     consulLockInfo.getLockValue(), putParams).getValue();
@@ -86,7 +86,7 @@ public class ConsulLock extends AbstractSpringReentrantLock<ConsulLockInfo> {
      * @return
      */
     private String createSession(String lockName, long expiration) {
-        NewSession session = new NewSession();
+        var session = new NewSession();
         session.setBehavior(Session.Behavior.RELEASE);
         session.setName("session " + lockName);
         session.setLockDelay(1);

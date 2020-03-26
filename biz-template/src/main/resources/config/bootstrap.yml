@@ -21,6 +21,10 @@ spring:
 #      generic:
 #        application-name: ${spring.application.name}
 #      scheme: http
+#      config:
+#        order: -10
+    vault:
+      authentication: cert
   rabbitmq:
     addresses: ${shitcode.env.rabbitmq.addresses}
     port: ${shitcode.env.rabbitmq.port}
@@ -31,7 +35,6 @@ spring:
 #      type: rabbit
   sleuth:
     trace-id128: true
-
 
 logging:
   config: classpath:config/logback-spring.xml
@@ -57,3 +60,6 @@ shitcode:
         startDate: 2020-02-20
         endDate: 2020-03-07
         version: 2
+jasypt:
+  encryptor:
+    algorithm:

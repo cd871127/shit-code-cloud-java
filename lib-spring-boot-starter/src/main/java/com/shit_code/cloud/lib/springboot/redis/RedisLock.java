@@ -33,7 +33,7 @@ public class RedisLock extends AbstractSpringReentrantLock<ReentrantLockInfo> {
 
     @Override
     protected ReentrantLockInfo createLockInfo(String lockName, String lockValue, long expiration) {
-        ReentrantLockInfo reentrantLockInfo = new ReentrantLockInfo().setExpiration(expiration).setLockName(lockName).setLockValue(lockValue);
+        var reentrantLockInfo = new ReentrantLockInfo().setExpiration(expiration).setLockName(lockName).setLockValue(lockValue);
         threadMap.get().put(lockName, reentrantLockInfo);
         return reentrantLockInfo;
     }
@@ -45,7 +45,7 @@ public class RedisLock extends AbstractSpringReentrantLock<ReentrantLockInfo> {
 
     @Override
     protected boolean renew(ReentrantLockInfo reentrantLockInfo) {
-        BoundValueOperations<String, String> redis = stringRedisTemplate.boundValueOps(lockName(reentrantLockInfo.getLockName()));
+        var redis = stringRedisTemplate.boundValueOps(lockName(reentrantLockInfo.getLockName()));
         //是自己的锁
         if (reentrantLockInfo.getLockValue().equals(redis.get())) {
             redis.expire(reentrantLockInfo.getExpiration(), TimeUnit.MILLISECONDS);
@@ -57,7 +57,7 @@ public class RedisLock extends AbstractSpringReentrantLock<ReentrantLockInfo> {
     @Override
     protected boolean acquire(ReentrantLockInfo reentrantLockInfo) {
         try {
-            BoundValueOperations<String, String> redis = stringRedisTemplate.boundValueOps(lockName(reentrantLockInfo.getLockName()));
+            var redis = stringRedisTemplate.boundValueOps(lockName(reentrantLockInfo.getLockName()));
             Boolean result;
             if (reentrantLockInfo.getExpiration() != 0) {
                 result = redis.setIfAbsent(reentrantLockInfo.getLockValue(), reentrantLockInfo.getExpiration(), TimeUnit.MILLISECONDS);
@@ -74,7 +74,7 @@ public class RedisLock extends AbstractSpringReentrantLock<ReentrantLockInfo> {
     @Override
     protected boolean release(ReentrantLockInfo reentrantLockInfo) {
         try {
-            Boolean result = stringRedisTemplate.execute(unlockScript,
+            var result = stringRedisTemplate.execute(unlockScript,
                     Collections.singletonList(lockName(reentrantLockInfo.getLockName())), reentrantLockInfo.getLockValue());
             return result == null ? false : result;
         } catch (Exception e) {

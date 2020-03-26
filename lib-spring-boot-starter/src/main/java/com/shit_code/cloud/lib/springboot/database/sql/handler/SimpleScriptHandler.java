@@ -38,7 +38,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
     @Override
     protected List<SqlScript> from() {
         //解析路径
-        String sourceLocation = parseLocation(sqlScriptProperties.getSourceLocation());
+        var sourceLocation = parseLocation(sqlScriptProperties.getSourceLocation());
         try {
             List<SqlScript> scripts = new LinkedList<>();
             //遍历目录
@@ -66,15 +66,15 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
      */
     @Override
     protected void to(List<SqlScript> scripts) {
-        String targetLocation = parseLocation(sqlScriptProperties.getTargetLocation());
-        File targetDir = Paths.get(targetLocation).toFile();
+        var targetLocation = parseLocation(sqlScriptProperties.getTargetLocation());
+        var targetDir = Paths.get(targetLocation).toFile();
         if (!targetDir.exists() && !targetDir.mkdirs()) {
             throw new ShitCodeException();
         }
         scripts.parallelStream().filter(sqlScript ->
                 StringUtils.isEmpty(sqlScript.getName()) || StringUtils.isEmpty(sqlScript.getVersion()))
                 .forEach(sqlScript -> {
-                    AtomicInteger subVersion = new AtomicInteger(1);
+                    var subVersion = new AtomicInteger(1);
                     sqlScript.getSqlList().forEach((script) -> {
                         String filePath = targetLocation + File.separator + flywayProperties.getSqlMigrationPrefix()
                                 + sqlScript.getVersion()
@@ -83,7 +83,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
                                 + sqlScript.getName()
                                 + sqlScriptProperties.getScriptSuffix();
                         try {
-                            Path file = Paths.get(filePath);
+                            var file = Paths.get(filePath);
                             if (!file.toFile().exists()) {
                                 log.debug("Write sql script: {}", filePath);
                                 Files.write(Paths.get(filePath), script.getBytes(StandardCharsets.UTF_8));

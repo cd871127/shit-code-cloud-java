@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 public class SqlScriptAutoConfiguration {
     @Bean
     SimpleScriptHandler simpleScriptHandler(SqlScriptProperties sqlScriptProperties, FlywayProperties flywayProperties) {
-        SimpleScriptHandler simpleScriptHandler = new SimpleScriptHandler();
+        var simpleScriptHandler = new SimpleScriptHandler();
         simpleScriptHandler.setFlywayProperties(flywayProperties);
         simpleScriptHandler.setSqlScriptProperties(sqlScriptProperties);
         simpleScriptHandler.setProcessorChain(ProcessorChain.getDefaultInstance());
