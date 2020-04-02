@@ -71,8 +71,7 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
         if (!targetDir.exists() && !targetDir.mkdirs()) {
             throw new ShitCodeException();
         }
-        scripts.parallelStream().filter(sqlScript ->
-                StringUtils.isEmpty(sqlScript.getName()) || StringUtils.isEmpty(sqlScript.getVersion()))
+        scripts.parallelStream().filter(this::filterScript)
                 .forEach(sqlScript -> {
                     var subVersion = new AtomicInteger(1);
                     sqlScript.getSqlList().forEach((script) -> {
@@ -95,7 +94,10 @@ public class SimpleScriptHandler extends AbstractSqlScriptHandler implements Ini
                         }
                     });
                 });
+    }
 
+    private boolean filterScript(SqlScript sqlScript) {
+        return !StringUtils.isEmpty(sqlScript.getName()) && !StringUtils.isEmpty(sqlScript.getVersion());
     }
 
     @Override
