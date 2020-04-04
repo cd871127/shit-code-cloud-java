@@ -11,6 +11,7 @@ configure(subprojects.findAll { !excludeProjects.contains(it.name) }) {
     compileJava.dependsOn(":lib-core:publishToMavenLocal")
 //common dependencies
     dependencies {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
 //        implementation group: 'com.google.code.gson', name: 'gson', version: gSonVersion
         implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: adminVersion
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
@@ -52,9 +53,9 @@ configure(subprojects.findAll { databaseProjects.contains(it.name) }) {
     }
 }
 
-String[] rabbitmqProjects = ['biz-template']
-configure(subprojects.findAll { rabbitmqProjects.contains(it.name) }) {
-    dependencies {
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
-    }
-}
+//String[] rabbitmqProjects = ['biz-template']
+//configure(subprojects.findAll { rabbitmqProjects.contains(it.name) }) {
+//    dependencies {
+//        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
+//    }
+//}

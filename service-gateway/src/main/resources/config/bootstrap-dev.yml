@@ -4,7 +4,7 @@ shitcode:
       host: localhost
       port: 8500
     server:
-      port: 8802
+      port: 8805
     rabbitmq:
       addresses: localhost
       port: 5672

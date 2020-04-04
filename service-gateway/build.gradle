@@ -1,5 +1,9 @@
 version '0.0.1'
 
+configurations {
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
+}
+
 dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway'
 }
