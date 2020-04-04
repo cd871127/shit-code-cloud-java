@@ -24,7 +24,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:${shitcode.env.server.port}
+        url: http://127.0.0.1:${shitcode.env.server.port}
 
 logging:
   config: classpath:config/logback-spring.xml
