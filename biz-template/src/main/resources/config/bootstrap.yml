@@ -26,10 +26,7 @@ spring:
 #      type: rabbit
   sleuth:
     trace-id128: true
-  boot:
-    admin:
-       client:
-         url: http://127.0.0.1:${shitcode.env.server.port}
+
 
 logging:
   config: classpath:config/logback-spring.xml
