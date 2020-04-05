@@ -1,5 +1,6 @@
 spring:
   sleuth:
+    trace-id128: true
     web:
       client:
         enabled: true

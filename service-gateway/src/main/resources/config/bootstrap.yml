@@ -16,15 +16,22 @@ spring:
         watch:
           enabled: true
           delay: 1
+    gateway:
+      routes:
+        - id: host_route
+          uri: lb://biz-template
+          predicates:
+            - Path=/foo,/bar
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
   rabbitmq:
     addresses: ${shitcode.env.rabbitmq.addresses}
     port: ${shitcode.env.rabbitmq.port}
     username: ${shitcode.env.rabbitmq.username}
     password: ${shitcode.env.rabbitmq.password}
-  boot:
-    admin:
-      client:
-        url: http://127.0.0.1:${shitcode.env.server.port}
 
 logging:
   config: classpath:config/logback-spring.xml
