@@ -4,7 +4,6 @@ import com.shit_code.cloud.lib.springboot.database.sql.SqlScript;
 import com.shit_code.cloud.lib.springboot.database.sql.SqlScriptProperties;
 import com.shit_code.cloud.lib.springboot.database.sql.process.ProcessorChain;
 import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 
 import java.util.List;
@@ -25,10 +24,8 @@ public abstract class AbstractSqlScriptHandler implements SqlScriptHandler {
     @Override
     public void handle() {
         var scripts = from();
-        if (CollectionUtils.isNotEmpty(scripts)) {
-            var result = doHandle(scripts);
-            to(result);
-        }
+        var result = doHandle(scripts);
+        to(result);
     }
 
     /**

@@ -16,10 +16,10 @@ init_connect='SET NAMES utf8mb4'
 lower_case_table_names = 1
 
 #最大连接数
-max_connections = 10
+max_connections = 100
 
 #最大错误连接数
-max_connect_errors = 20
+max_connect_errors = 200
 
 #TIMESTAMP如果没有显示声明NOT NULL，允许NULL值
 explicit_defaults_for_timestamp = true
@@ -29,8 +29,8 @@ max_allowed_packet = 1G
 
 #MySQL连接闲置超过一定时间后(单位：秒)将会被强行关闭
 #MySQL默认的wait_timeout  值为8个小时, interactive_timeout参数需要同时配置才能生效
-interactive_timeout = 1800
-wait_timeout = 1800
+interactive_timeout = 30
+wait_timeout = 30
 
 
 #内部内存临时表的最大值 ，设置成128M。

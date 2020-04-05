@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shit_code.cloud.gateway.dao.mapper.RouteAccessoryMapper">
+
+    <select id="queryAccessories" resultType="RouteAccessoryDTO">
+        select name, args, type, id, unique_id, version, valid, create_by, create_time, update_by, update_time
+        from service_gateway_db.t_route_accessory
+        <where>
+            <if test="id!=null">id = #{id}</if>
+            <if test="name!=null">name = #{name}</if>
+            <if test="type!=null">type = #{type}</if>
+            <if test="uniqueId!=null">unique_id = #{uniqueId}</if>
+        </where>
+    </select>
+</mapper>

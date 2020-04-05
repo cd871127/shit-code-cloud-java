@@ -4,3 +4,9 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://${shitcode.env.mysql.host}:3306?useUnicode=true&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.shit_code.cloud.**.dao.dto
+  mapper-locations: classpath:sql-map/*.xml

@@ -2,12 +2,9 @@ package com.shit_code.cloud.lib.springboot.log.aspect;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
@@ -16,20 +13,26 @@ public class MonitorLogAspect {
 
     private static final Gson gson = new Gson();
 
-    @Pointcut("((@within(org.springframework.web.bind.annotation.RestController)" +
+    @Pointcut("@within(com.shit_code.cloud.lib.springboot.log.MonitorLog)" +
+            "||@annotation(com.shit_code.cloud.lib.springboot.log.MonitorLog)")
+    public void monitorLog() {
+    }
+
+    @Pointcut("(@within(org.springframework.web.bind.annotation.RestController)" +
             "||@within(org.springframework.stereotype.Controller))" +
             "&&(@annotation(org.springframework.web.bind.annotation.RequestMapping)" +
             "||@annotation(org.springframework.web.bind.annotation.GetMapping)" +
             "||@annotation(org.springframework.web.bind.annotation.PostMapping)" +
             "||@annotation(org.springframework.web.bind.annotation.PatchMapping)" +
             "||@annotation(org.springframework.web.bind.annotation.PutMapping)" +
-            "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)))" +
-            "||@within(com.shit_code.cloud.lib.springboot.log.MonitorLog)" +
-            "||@annotation(com.shit_code.cloud.lib.springboot.log.MonitorLog)")
-    public void monitorLog() {
+            "||@annotation(org.springframework.web.bind.annotation.DeleteMapping))")
+    public void web() {
     }
 
-    @Around("monitorLog()")
+    @Pointcut("@within(org.apache.ibatis.annotations.Mapper)")
+    public void mapper(){}
+
+    @Around("monitorLog()||web()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         try {
@@ -49,7 +52,7 @@ public class MonitorLogAspect {
 
             stringBuilder.setLength(prefixLength);
             stringBuilder.append(" result: ").append(gson.toJson(result)).append(" elapse: ")
-                    .append(end - start).append("ms");
+                    .append((end - start) / 1000000L).append("ms");
             stringBuilder.replace(0, 5, "Finish");
             log.info(stringBuilder.toString());
             return result;

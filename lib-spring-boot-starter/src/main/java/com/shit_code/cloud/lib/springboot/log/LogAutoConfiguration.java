@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass({ProceedingJoinPoint.class})
 public class LogAutoConfiguration {
-//    @Bean
-//    public MonitorLogAspect monitorLogAspect() {
-//        return new MonitorLogAspect();
-//    }
+    @Bean
+    public MonitorLogAspect monitorLogAspect() {
+        return new MonitorLogAspect();
+    }
 }

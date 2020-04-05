@@ -29,8 +29,8 @@ max_allowed_packet = 1G
 
 #MySQL连接闲置超过一定时间后(单位：秒)将会被强行关闭
 #MySQL默认的wait_timeout  值为8个小时, interactive_timeout参数需要同时配置才能生效
-interactive_timeout = 1800
-wait_timeout = 1800
+interactive_timeout = 30
+wait_timeout = 30
 
 
 #内部内存临时表的最大值 ，设置成128M。

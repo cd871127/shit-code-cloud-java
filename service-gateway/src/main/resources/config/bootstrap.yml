@@ -32,9 +32,27 @@ spring:
     port: ${shitcode.env.rabbitmq.port}
     username: ${shitcode.env.rabbitmq.username}
     password: ${shitcode.env.rabbitmq.password}
-
 logging:
   config: classpath:config/logback-spring.xml
 
 server:
   port: ${shitcode.env.server.port}
+
+shitcode:
+  flyway:
+    scripts:
+      #key需要和文件名一致
+      00-service_gateway_db:
+        #name是输出的文件的名字
+        name: service_gateway_db
+        version: 0
+      01-t_route:
+        name: t_route
+        version: 1
+      02-t_predicate_filter:
+        name: t_predicate_filter
+        version: 2
+
+
+
+
