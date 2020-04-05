@@ -62,6 +62,7 @@
         <logger name="com.shit_code.cloud.lib.springboot.database.sql" level="INFO">
             <appender-ref ref="CONSOLE"/>
         </logger>
+        <logger name="com.shit_code.cloud.gateway.dao.mapper" level="DEBUG"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="RABBIT_APPENDER"/>

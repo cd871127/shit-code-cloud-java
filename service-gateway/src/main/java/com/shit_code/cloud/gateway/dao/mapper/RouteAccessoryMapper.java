@@ -1,16 +1,17 @@
 package com.shit_code.cloud.gateway.dao.mapper;
 
+import com.shit_code.cloud.gateway.dao.dto.RouteAccessoryDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-//@Mapper
+import java.util.List;
+
+@Mapper
 public interface RouteAccessoryMapper {
 
-    int insert();
+    int selectList(RouteAccessoryDTO routeAccessoryDTO);
 
-    int update();
+    int insert(RouteAccessoryDTO routeAccessoryDTO);
 
-    int delete();
-
-    int select();
+    int insertList(List<RouteAccessoryDTO> routeAccessoryDTO);
 
 }

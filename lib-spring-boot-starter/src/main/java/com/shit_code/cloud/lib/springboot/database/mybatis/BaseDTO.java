@@ -6,11 +6,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class BaseDTO {
-    private String unique_id;
+    private String uniqueId;
     private Integer version;
-    private Integer valid;
+    private Status status = Status.INVALID;
     private String createBy;
     private LocalDateTime createTime;
-    private String updateTime;
-    private LocalDateTime updateBy;
+    private String updateBy;
+    private LocalDateTime updateTime;
+
+    public enum Status {
+        INVALID, VALID, DELETED
+    }
 }

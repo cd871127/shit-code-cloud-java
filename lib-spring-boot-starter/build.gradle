@@ -9,6 +9,6 @@ dependencies {
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
     compileOnly group: 'com.shit_code.cloud', name: 'lib-core', version: '0.0.1'
     annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
-    compileOnly group: 'com.google.code.gson', name: 'gson', version: gSonVersion
+    compileOnly group: 'com.alibaba', name: 'fastjson', version: fastJsonVersion
     compileOnly group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
 }

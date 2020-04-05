@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shit_code.cloud.gateway.dao.mapper.RouteAccessoryMapper">
 
-    <select id="queryAccessories" resultType="RouteAccessoryDTO">
-        select name, args, type, id, unique_id, version, valid, create_by, create_time, update_by, update_time
+    <select id="selectList" resultType="RouteAccessoryDTO">
+        select name, args, type, id, unique_id, version, status, create_by, create_time, update_by, update_time
         from service_gateway_db.t_route_accessory
         <where>
             <if test="id!=null">id = #{id}</if>
@@ -12,4 +12,20 @@
             <if test="uniqueId!=null">unique_id = #{uniqueId}</if>
         </where>
     </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into service_gateway_db.t_route_accessory(name, args, type, id, status)
+        value
+        <trim suffixOverrides=",">
+            <foreach collection="list" item="item">
+                (#{item.name},#{item.args,jdbcType=VARCHAR},#{item.type},#{item.id},#{item.status}),
+            </foreach>
+        </trim>
+    </insert>
+
+    <insert id="insert" parameterType="RouteAccessoryDTO">
+        insert into service_gateway_db.t_route_accessory(name, args, type, id, status)
+        values (#{name}, #{args,jdbcType=VARCHAR}, #{type}, #{id}, #{status})
+    </insert>
+
 </mapper>

@@ -1,6 +1,6 @@
 package com.shit_code.cloud.lib.springboot.log.aspect;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,7 +11,6 @@ import org.aspectj.lang.annotation.Pointcut;
 @Slf4j
 public class MonitorLogAspect {
 
-    private static final Gson gson = new Gson();
 
     @Pointcut("@within(com.shit_code.cloud.lib.springboot.log.MonitorLog)" +
             "||@annotation(com.shit_code.cloud.lib.springboot.log.MonitorLog)")
@@ -29,9 +28,6 @@ public class MonitorLogAspect {
     public void web() {
     }
 
-    @Pointcut("@within(org.apache.ibatis.annotations.Mapper)")
-    public void mapper(){}
-
     @Around("monitorLog()||web()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
@@ -43,7 +39,7 @@ public class MonitorLogAspect {
             stringBuilder.append("Start execute: ").append(className).append("#")
                     .append(methodName);
             var prefixLength = stringBuilder.length();
-            stringBuilder.append(" parameters:").append(gson.toJson(proceedingJoinPoint.getArgs()));
+            stringBuilder.append(" parameters:").append(JSONObject.toJSONString(proceedingJoinPoint.getArgs()));
 
             log.info(stringBuilder.toString());
             var start = System.nanoTime();
@@ -51,7 +47,7 @@ public class MonitorLogAspect {
             var end = System.nanoTime();
 
             stringBuilder.setLength(prefixLength);
-            stringBuilder.append(" result: ").append(gson.toJson(result)).append(" elapse: ")
+            stringBuilder.append(" result: ").append(JSONObject.toJSONString(result)).append(" elapse: ")
                     .append((end - start) / 1000000L).append("ms");
             stringBuilder.replace(0, 5, "Finish");
             log.info(stringBuilder.toString());

@@ -2,7 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shit_code.cloud.gateway.dao.mapper.RouteMapper">
 
-    <select id="select" resultType="routeDTO">
-        select * from service_gateway_db.t_route
+    <insert id="insert" parameterType="routeDTO">
+        <selectKey keyProperty="uniqueId" keyColumn="unique_id" order="BEFORE" resultType="java.lang.String">
+            select uuid()
+        </selectKey>
+        insert into service_gateway_db.t_route(id,uri,`order`,metadata,unique_id,status)
+        values (#{id},#{uri},#{order},#{metadata,jdbcType=VARCHAR},#{uniqueId},#{status})
+    </insert>
+
+    <update id="updateById" parameterType="routeDTO">
+        update service_gateway_db.t_route
+        <set>
+            <if test="uri!=null">uri=#{uri},</if>
+            <if test="order!=null">`order`=#{order},</if>
+            <if test="metadata!=null">metadata=#{metadata},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="updateBy!=null">update_by=#{updateBy},</if>
+            version=version+1
+        </set>
+        where id=#{id} and version=#{version}
+    </update>
+
+    <sql id="select">
+        select id, uri, `order`, id, metadata, unique_id, version, status, create_by, create_time, update_by,
+        update_time
+        from service_gateway_db.t_route
+        <where>
+            <if test="id!=null">id = #{id}</if>
+            <if test="status!=null">name = #{status}</if>
+            <if test="uniqueId!=null">unique_id = #{uniqueId}</if>
+        </where>
+    </sql>
+
+    <select id="selectOne" resultType="RouteDTO">
+        <include refid="select"/>
     </select>
+
+    <select id="selectList" resultType="RouteDTO">
+        <include refid="select"/>
+    </select>
+
 </mapper>
