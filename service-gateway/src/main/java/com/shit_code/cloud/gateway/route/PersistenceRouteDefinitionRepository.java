@@ -1,5 +1,6 @@
 package com.shit_code.cloud.gateway.route;
 
+import com.shit_code.cloud.gateway.service.RouteService;
 import org.springframework.cloud.gateway.route.InMemoryRouteDefinitionRepository;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
@@ -26,6 +27,9 @@ public class PersistenceRouteDefinitionRepository implements RouteDefinitionRepo
     @Resource
     private RedisTemplate<String, RouteDefinition> redisTemplate;
 
+    @Resource
+    private RouteService routeService;
+
 //    @Resource
 //    private RouteMapper routeMapper;
 
@@ -35,6 +39,7 @@ public class PersistenceRouteDefinitionRepository implements RouteDefinitionRepo
     private void init() {
         this.inMemoryRouteDefinitionRepository = new InMemoryRouteDefinitionRepository();
         this.boundHashOperations = redisTemplate.boundHashOps(ROUTE_KEY);
+        //TODO 读取db路由
     }
 
     @Override

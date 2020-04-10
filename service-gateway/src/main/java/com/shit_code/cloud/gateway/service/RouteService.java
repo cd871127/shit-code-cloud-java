@@ -26,19 +26,31 @@ public class RouteService {
     @Resource
     private RouteAccessoryMapper routeAccessoryMapper;
 
+    /**
+     * 添加一个路由
+     *
+     * @param routeDefinition
+     */
     @Transactional(rollbackFor = Exception.class)
     public void add(RouteDefinition routeDefinition) {
         RouteDTO routeDTO = RouteDTO.fromDefinition(routeDefinition);
+        //插入routeDefinition
         routeMapper.insert(routeDTO);
         List<RouteAccessoryDTO> accessories = new ArrayList<>(
                 routeDTO.getFilters().size() + routeDTO.getPredicates().size());
         accessories.addAll(routeDTO.getFilters());
         accessories.addAll(routeDTO.getPredicates());
+        //插入filter和predicates
         if (CollectionUtils.isNotEmpty(accessories)) {
             routeAccessoryMapper.insertList(accessories);
         }
     }
 
+    /**
+     * 更新路由
+     *
+     * @param routeDefinition
+     */
     @Transactional(rollbackFor = Exception.class)
     public void update(RouteDefinition routeDefinition) {
         RouteDTO routeDTO = RouteDTO.fromDefinition(routeDefinition);
@@ -47,10 +59,21 @@ public class RouteService {
 
     }
 
+    /**
+     * 删除路由
+     *
+     * @param id 路由id
+     */
     public void delete(String id) {
 
     }
 
+    /**
+     * 更新路由状态
+     *
+     * @param id
+     * @param status
+     */
     public void updateStatus(String id, BaseDTO.Status status) {
 
     }
