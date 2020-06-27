@@ -3,7 +3,7 @@
 server-id = 1
 
 binlog-ignore-db=information_schema
-binlog-ignore-db=mysql
+# binlog-ignore-db=mysql
 binlog-ignore-db=sys
 binlog-ignore-db=performance_schema
 

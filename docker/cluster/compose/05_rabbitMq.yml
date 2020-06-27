@@ -1,18 +1,18 @@
 version: '3.7'
 
 services:
-  #  rabbit_haproxy:
-  #    container_name: rabbit_haproxy
-  #    image: ${HAPROXY_IMAGE}
-  #    hostname: rabbit_haproxy
-  #    networks:
-  #      cluster-network:
-  #        ipv4_address: ${IP_ADDR_PREFIX}.41
-  ##    command: ["/usr/local/etc/redis/redis.conf"]
-  #    ports:
-  #      - 19188:9188
-  #    volumes:
-  #      - ${DOCKER_VOLUME}/redis/node1:/usr/local/etc/haproxy/haproxy.cfg
+  rabbit_haproxy:
+    container_name: rabbit_haproxy
+    image: ${HAPROXY_IMAGE}
+    hostname: rabbit_haproxy
+    networks:
+      cluster-network:
+        ipv4_address: ${IP_ADDR_PREFIX}.40
+    #    command: ["-f","/usr/local/etc/haproxy/haproxy.cfg"]
+    ports:
+      - 1080:1080
+    volumes:
+      - ${DOCKER_CONFIG}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
   rabbit_node_1:
     &rabbitmq
     container_name: rabbit_node_1
@@ -31,6 +31,8 @@ services:
     volumes:
       - ${DOCKER_VOLUME}/rabbit/node1:/var/lib/rabbitmq/mnesia
   rabbit_node_2:
+    depends_on:
+      - rabbit_node_1
     <<: *rabbitmq
     container_name: rabbit_node_2
     hostname: rabbit_node_2
@@ -40,6 +42,8 @@ services:
     volumes:
       - ${DOCKER_VOLUME}/rabbit/node2:/var/lib/rabbitmq/mnesia
   rabbit_node_3:
+    depends_on:
+      - rabbit_node_1
     <<: *rabbitmq
     container_name: rabbit_node_3
     hostname: rabbit_node_3
@@ -48,3 +52,20 @@ services:
         ipv4_address: ${IP_ADDR_PREFIX}.43
     volumes:
       - ${DOCKER_VOLUME}/rabbit/node3:/var/lib/rabbitmq/mnesia
+
+  #  rabbitmqctl stop_app
+  #  rabbitmqctl reset
+  #  rabbitmqctl join_cluster --ram rabbit@rabbit1
+  #  rabbitmqctl start_app
+
+  # https://www.cnblogs.com/refuge/p/10359539.html
+
+#  HA sync mode
+#manual : 手动模式(默认值) 手动模式下,新加入的节点不会同步老节点的队列(及消息)
+#automatic : 自动模式
+#
+#HA mirror promotion on failure
+#  when-synced
+#  always (默认值)
+#
+#HA mirror promotion on shutdown

@@ -16,8 +16,7 @@ listen rabbitmq_admin
     server node3 172.28.0.43:15672
 
 #####################RabbitMQ服务代理###########################################
-listen rabbitmq_cluster
-    bind 0.0.0.0:5673
+listen rabbitmq_cluster 0.0.0.0:5673
     mode tcp
     stats enable
     balance roundrobin
