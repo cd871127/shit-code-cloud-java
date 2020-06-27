@@ -1,0 +1,12 @@
+consul:1.7.2
+redis:5.0.9
+mysql:8.0.20
+arm64v8/mariadb:10.5.2
+rabbitmq:3.8.3-management
+haproxy:2.1.4
+openzipkin/zipkin:2.21.1
+logstash:7.6.2
+elasticsearch:7.6.2
+kibana:7.6.2
+vault:1.4.0
+nginx:1.17.10
