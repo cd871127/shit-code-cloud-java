@@ -11,10 +11,10 @@ services:
       cluster-network:
         ipv4_address: ${IP_ADDR_PREFIX}.11
     command: ["agent", "-data-dir", "/consul/data", "-config-dir", "/consul/config", "-ui"]
-    extra_hosts:
-      - consul_node_1:${IP_ADDR_PREFIX}.11
-      - consul_node_2:${IP_ADDR_PREFIX}.12
-      - consul_node_3:${IP_ADDR_PREFIX}.13
+#    extra_hosts:
+#      - consul_node_1:${IP_ADDR_PREFIX}.11
+#      - consul_node_2:${IP_ADDR_PREFIX}.12
+#      - consul_node_3:${IP_ADDR_PREFIX}.13
     volumes:
       - ${DOCKER_VOLUME}/consul/node1:/consul/data
       - ${DOCKER_CONFIG}/consul/config.json:/consul/config/config.json
